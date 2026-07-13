@@ -18,7 +18,7 @@ lineage:
 
 governance:
   created_at: "2026-07-13T15:57:46Z"
-  updated_at: "2026-07-13T19:50:27Z"
+  updated_at: "2026-07-13T19:54:33Z"
   author: "content-engine"
   reviewers: []
 
@@ -29,6 +29,5 @@ aggregate_metrics:
 
 channels_manifest:
   - channels/facebook.md
-  - channels/linkedin.md
   - channels/newsletter.md
   - channels/x.md
