@@ -1,11 +1,11 @@
-# Content Packet: First Content
+# Content Packet: First Content edited
 
 ## 1. Packet Executive Summary
 
 | Metadata Field | Value |
 | :--- | :--- |
 | **Packet ID** | `2026-07-13-first-content` |
-| **Title** | First Content |
+| **Title** | First Content edited |
 | **Event Date** | `2026-07-13` |
 | **Topic Slug** | `first-content` |
 | **Lifecycle Status** | `idea` |
@@ -30,6 +30,7 @@ This is first content.
 | :--- | :--- | :--- | :--- |
 | [`channels/facebook.md`](channels/facebook.md) | `facebook` | `post` | `draft` |
 | [`channels/linkedin.md`](channels/linkedin.md) | `linkedin` | `post` | `draft` |
+| [`channels/newsletter.md`](channels/newsletter.md) | `newsletter` | `newsletter` | `draft` |
 | [`channels/x.md`](channels/x.md) | `x` | `post` | `draft` |
 
 ---

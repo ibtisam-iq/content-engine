@@ -1,5 +1,5 @@
 packet_id: "2026-07-13-first-content"
-title: "First Content"
+title: "First Content edited"
 date: "2026-07-13"
 topic: "first-content"
 lifecycle_status: "idea"
@@ -18,7 +18,7 @@ lineage:
 
 governance:
   created_at: "2026-07-13T15:57:46Z"
-  updated_at: "2026-07-13T19:48:49Z"
+  updated_at: "2026-07-13T19:50:27Z"
   author: "content-engine"
   reviewers: []
 
@@ -30,4 +30,5 @@ aggregate_metrics:
 channels_manifest:
   - channels/facebook.md
   - channels/linkedin.md
+  - channels/newsletter.md
   - channels/x.md

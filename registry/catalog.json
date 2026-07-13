@@ -1,11 +1,11 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "generated_at": "2026-07-13T19:48:49Z",
+  "generated_at": "2026-07-13T19:50:27Z",
   "total_packets": 3,
   "packets": [
     {
       "packet_id": "2026-07-13-first-content",
-      "title": "First Content",
+      "title": "First Content edited",
       "date": "2026-07-13",
       "topic": "first-content",
       "lifecycle_status": "idea",
@@ -14,6 +14,7 @@
       "channels": [
         "channels/facebook.md",
         "channels/linkedin.md",
+        "channels/newsletter.md",
         "channels/x.md"
       ]
     },
