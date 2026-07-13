@@ -1,0 +1,123 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://content-engine.dev/schemas/channel.schema.json",
+  "title": "Channel Front Matter Schema",
+  "description": "Schema validation for YAML front matter in channel markdown files under channels/.",
+  "type": "object",
+  "required": [
+    "channel_id",
+    "platform",
+    "format",
+    "source_packet",
+    "channel_status",
+    "dates",
+    "distribution",
+    "content_spec",
+    "performance_metrics"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "channel_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Unique identifier for this output variant."
+    },
+    "platform": {
+      "type": "string",
+      "enum": ["linkedin", "x", "facebook", "blog", "newsletter"],
+      "description": "Target distribution network."
+    },
+    "format": {
+      "type": "string",
+      "enum": ["post", "thread", "carousel", "article", "newsletter"],
+      "description": "Specific structural format variant."
+    },
+    "source_packet": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9-]+$",
+      "description": "Parent packet_id matching folder name."
+    },
+    "channel_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "review",
+        "ready",
+        "scheduled",
+        "published",
+        "archived"
+      ],
+      "description": "Channel-specific workflow status."
+    },
+    "dates": {
+      "type": "object",
+      "required": ["planned_date", "published_date"],
+      "additionalProperties": false,
+      "properties": {
+        "planned_date": {
+          "type": "string",
+          "description": "ISO-8601 target publish timestamp or empty string."
+        },
+        "published_date": {
+          "type": "string",
+          "description": "ISO-8601 actual publish timestamp or empty string."
+        }
+      }
+    },
+    "distribution": {
+      "type": "object",
+      "required": ["published_url", "syndication_canonical_url"],
+      "additionalProperties": false,
+      "properties": {
+        "published_url": {
+          "type": "string",
+          "description": "Direct live URL of published artifact."
+        },
+        "syndication_canonical_url": {
+          "type": "string",
+          "description": "Canonical URL tag if syndicated article."
+        }
+      }
+    },
+    "content_spec": {
+      "type": "object",
+      "required": ["hook", "cta_type", "cta_text"],
+      "additionalProperties": false,
+      "properties": {
+        "hook": {
+          "type": "string",
+          "description": "Primary hook or headline for scanning."
+        },
+        "cta_type": {
+          "type": "string",
+          "enum": ["question", "link", "newsletter-signup", "none"],
+          "description": "Type of call to action."
+        },
+        "cta_text": {
+          "type": "string",
+          "description": "Text of the call to action."
+        }
+      }
+    },
+    "performance_metrics": {
+      "type": "object",
+      "required": [
+        "impressions",
+        "engagements",
+        "likes",
+        "comments",
+        "shares",
+        "last_measured_at"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "impressions": { "type": "integer", "minimum": 0 },
+        "engagements": { "type": "integer", "minimum": 0 },
+        "likes": { "type": "integer", "minimum": 0 },
+        "comments": { "type": "integer", "minimum": 0 },
+        "shares": { "type": "integer", "minimum": 0 },
+        "last_measured_at": { "type": "string" }
+      }
+    }
+  }
+}

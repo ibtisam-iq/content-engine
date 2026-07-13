@@ -1,0 +1,111 @@
+name: create-packet-from-issue
+
+on:
+  issues:
+    types:
+      - labeled
+
+jobs:
+  create-packet:
+    if: github.event.label.name == 'new-packet'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Extract Issue Fields and Scaffold Packet
+        id: create
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          python3 - <<'EOF'
+          import os, re, sys, subprocess
+
+          body = os.environ.get("ISSUE_BODY", "")
+          issue_num = os.environ.get("ISSUE_NUMBER", "")
+
+          def parse_field(label):
+              m = re.search(r"###\s*" + label + r"\s*\n+([^\n#]+)", body, re.IGNORECASE)
+              if m:
+                  return m.group(1).strip()
+              m2 = re.search(r"\*\*" + label + r"\*\*:\s*([^\n]+)", body, re.IGNORECASE)
+              return m2.group(1).strip() if m2 else ""
+
+          title = parse_field("Title") or f"Issue #{issue_num} Packet"
+          date = parse_field("Date") or "2026-07-15"
+          topic = parse_field("Topic Slug") or parse_field("Topic slug") or f"issue-{issue_num}"
+          platforms = parse_field("Target Platforms") or parse_field("Platforms") or "linkedin,x,blog"
+          pillars = parse_field("Content Pillars") or parse_field("Pillars") or "platform-engineering"
+          tags = parse_field("Tags") or "architecture"
+          campaign = parse_field("Campaign") or ""
+          series = parse_field("Series") or ""
+
+          # Clean up checkbox formatting if from issue forms
+          platforms_clean = []
+          for p in ["linkedin", "x", "facebook", "blog", "newsletter"]:
+              if p in platforms.lower():
+                  platforms_clean.append(p)
+          if not platforms_clean:
+              platforms_clean = ["linkedin", "x", "blog"]
+
+          cmd = [
+              "./scripts/create-packet.sh",
+              "--date", date,
+              "--topic", topic,
+              "--title", title,
+              "--platforms", ",".join(platforms_clean),
+              "--pillars", pillars,
+              "--tags", tags,
+              "--campaign", campaign,
+              "--series", series,
+              "--related-project", f"ISSUE-{issue_num}"
+          ]
+          print("Running command:", " ".join(cmd))
+          res = subprocess.run(cmd, capture_output=True, text=True)
+          if res.returncode != 0:
+              print(f"ERROR creating packet:\n{res.stderr}", file=sys.stderr)
+              sys.exit(1)
+          print(res.stdout)
+          
+          # Output folder path
+          year, month, _ = date.split("-")
+          packet_dir = f"content/{year}/{month}/{date}-{topic}"
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"packet_dir={packet_dir}\n")
+          EOF
+
+      - name: Validate Generated Packet and Update Catalog
+        run: |
+          chmod +x scripts/validate-packet.sh scripts/generate-catalog.sh
+          ./scripts/validate-packet.sh --packet "${{ steps.create.outputs.packet_dir }}"
+          ./scripts/generate-catalog.sh
+
+      - name: Commit and Push Scaffolded Packet
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/ registry/catalog.json
+          git commit -m "create: scaffold packet from Issue #${{ github.event.issue.number }}" || echo "Nothing to commit"
+          git push origin main
+
+      - name: Comment on Issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `Automated content packet created at \`${{ steps.create.outputs.packet_dir }}\` and catalog re-indexed.`
+            });

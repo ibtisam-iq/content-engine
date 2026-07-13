@@ -1,0 +1,33 @@
+# packet.yaml - Single source of truth manifest for a content packet
+packet_id: "2026-01-01-template-topic"
+title: "Template Packet Title"
+date: "2026-01-01"
+topic: "template-topic"
+lifecycle_status: "idea"
+
+taxonomy:
+  pillars:
+    - "platform-engineering"
+  tags:
+    - "architecture"
+  campaign: ""
+  series: ""
+
+lineage:
+  canonical_source: ""
+  repurposed_from: []
+  derivatives: []
+
+governance:
+  created_at: "2026-01-01T00:00:00Z"
+  updated_at: "2026-01-01T00:00:00Z"
+  owner: "creator-handle"
+  related_project: ""
+
+channels_manifest:
+  - "channels/linkedin-post.md"
+
+aggregate_metrics:
+  total_impressions: 0
+  total_engagements: 0
+  last_updated: ""
