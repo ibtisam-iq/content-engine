@@ -1,0 +1,106 @@
+name: update-platform-status
+
+on:
+  workflow_dispatch:
+    inputs:
+      packet_path:
+        description: "Path to packet directory (e.g. content/2026/07/2026-07-12-sample-packet)"
+        required: true
+        type: string
+      channel_file:
+        description: "Relative path inside packet to channel file (e.g. channels/linkedin.md)"
+        required: true
+        type: string
+      channel_status:
+        description: "New channel status (draft, review, ready, scheduled, published, archived)"
+        required: true
+        type: string
+      published_url:
+        description: "Live URL where channel was published (optional)"
+        required: false
+        type: string
+      impressions:
+        description: "Impressions telemetry count"
+        required: false
+        default: "0"
+        type: string
+      engagements:
+        description: "Engagements telemetry count"
+        required: false
+        default: "0"
+        type: string
+
+jobs:
+  update-channel:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Update Channel Front Matter Status and Distribution
+        env:
+          PACKET_PATH: ${{ github.event.inputs.packet_path }}
+          CHANNEL_FILE: ${{ github.event.inputs.channel_file }}
+          STATUS: ${{ github.event.inputs.channel_status }}
+          PUB_URL: ${{ github.event.inputs.published_url }}
+        run: |
+          python3 - <<'EOF'
+          import os, re
+          from datetime import datetime, timezone
+
+          packet_path = os.environ["PACKET_PATH"]
+          channel_file = os.environ["CHANNEL_FILE"]
+          status = os.environ["STATUS"]
+          pub_url = os.environ.get("PUB_URL", "")
+
+          fpath = os.path.join(packet_path, channel_file)
+          if not os.path.exists(fpath):
+              raise SystemExit(f"Channel file not found: {fpath}")
+
+          with open(fpath, encoding="utf-8") as f:
+              content = f.read()
+
+          # Update channel_status
+          content = re.sub(r'channel_status:\s*"?[a-zA-Z0-9_-]+"?', f'channel_status: "{status}"', content)
+
+          # Update published_url if provided
+          if pub_url:
+              content = re.sub(r'published_url:\s*"?[^"\n]*"?', f'published_url: "{pub_url}"', content)
+              now_iso = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+              content = re.sub(r'published_date:\s*"?[^"\n]*"?', f'published_date: "{now_iso}"', content)
+
+          with open(fpath, "w", encoding="utf-8") as f:
+              f.write(content)
+          print(f"Updated status={status} in {fpath}")
+          EOF
+
+      - name: Record Telemetry and Roll Up Aggregates
+        run: |
+          chmod +x scripts/update-metrics.sh
+          ./scripts/update-metrics.sh \
+            --packet "${{ github.event.inputs.packet_path }}" \
+            --channel "${{ github.event.inputs.channel_file }}" \
+            --impressions "${{ github.event.inputs.impressions }}" \
+            --engagements "${{ github.event.inputs.engagements }}"
+
+      - name: Validate Packet
+        run: |
+          chmod +x scripts/validate-packet.sh
+          ./scripts/validate-packet.sh --packet "${{ github.event.inputs.packet_path }}"
+
+      - name: Commit and Push Updates
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "${{ github.event.inputs.packet_path }}"
+          git commit -m "status: update ${{ github.event.inputs.channel_file }} to ${{ github.event.inputs.channel_status }}" || echo "Nothing to commit"
+          git push origin main

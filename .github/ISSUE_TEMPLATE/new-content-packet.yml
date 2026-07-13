@@ -1,0 +1,83 @@
+name: New Content Packet
+about: Create a new content packet for an engineering event or architecture milestone
+title: "[PACKET]: "
+labels:
+  - content
+  - planning
+  - new-packet
+body:
+  - type: input
+    id: title
+    attributes:
+      label: Title
+      description: Descriptive title for the content event
+    validations:
+      required: true
+
+  - type: input
+    id: date
+    attributes:
+      label: Date
+      description: Primary event date in YYYY-MM-DD format
+      placeholder: "2026-07-12"
+    validations:
+      required: true
+
+  - type: input
+    id: topic
+    attributes:
+      label: Topic Slug
+      description: Short lowercase hyphen-separated slug (e.g. k8s-upgrade-lessons)
+      placeholder: "k8s-upgrade-lessons"
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Strategic Context
+      description: Summary of the engineering event, target audience segments, and core thesis
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: platforms
+    attributes:
+      label: Target Platforms
+      description: Select all platforms to generate channel adaptations for
+      options:
+        - label: linkedin
+        - label: x
+        - label: facebook
+        - label: blog
+        - label: newsletter
+
+  - type: input
+    id: pillars
+    attributes:
+      label: Content Pillars
+      description: Comma-separated pillars (e.g. platform-engineering, architecture)
+
+  - type: input
+    id: tags
+    attributes:
+      label: Tags
+      description: Comma-separated tags (e.g. kubernetes, ci-cd)
+
+  - type: input
+    id: campaign
+    attributes:
+      label: Campaign
+      description: Marketing campaign slug (e.g. q3-platform-launch)
+
+  - type: input
+    id: series
+    attributes:
+      label: Series
+      description: Recurring content series ID (e.g. architecture-deep-dives)
+
+  - type: input
+    id: related_project
+    attributes:
+      label: Related Project / Ticket
+      description: Identifier for associated engineering ticket or project (e.g. ISSUE-1042)

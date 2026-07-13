@@ -1,0 +1,22 @@
+# Content Series and Active Campaigns Registry
+
+series:
+  - id: "architecture-deep-dives"
+    title: "Architecture Deep Dives"
+    description: "Detailed system design breakdowns and scalability trade-off analyses."
+    cadence: "biweekly"
+    active: true
+
+  - id: "production-lessons"
+    title: "Production Lessons Learned"
+    description: "Post-incident reviews, Kubernetes upgrades, and reliability engineering observations."
+    cadence: "monthly"
+    active: true
+
+campaigns:
+  - id: "q3-platform-launch"
+    title: "Q3 Developer Platform Launch"
+    description: "Multi-channel technical content supporting the internal developer platform rollout."
+    start_date: "2026-07-01"
+    end_date: "2026-09-30"
+    active: true

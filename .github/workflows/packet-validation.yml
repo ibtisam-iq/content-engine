@@ -1,0 +1,36 @@
+name: packet-validation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'content/**'
+      - 'schemas/**'
+      - 'registry/**'
+      - 'scripts/**'
+  pull_request:
+    paths:
+      - 'content/**'
+      - 'schemas/**'
+      - 'registry/**'
+      - 'scripts/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Execute Strict Packet and Schema Validation
+        run: |
+          chmod +x scripts/validate-packet.sh
+          ./scripts/validate-packet.sh --all

@@ -1,0 +1,35 @@
+name: sync-project-to-files
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Set true to perform a dry-run sync without mutating API"
+        required: false
+        default: "true"
+        type: string
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Synchronize GitHub Project Custom Fields
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x scripts/sync-projects.sh
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            ./scripts/sync-projects.sh --all --dry-run
+          else
+            ./scripts/sync-projects.sh --all
+          fi
