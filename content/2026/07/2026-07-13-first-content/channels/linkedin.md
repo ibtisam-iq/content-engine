@@ -1,6 +1,6 @@
 ---
-channel_id: "facebook-primary"
-platform: "facebook"
+channel_id: "linkedin-primary"
+platform: "linkedin"
 format: "post"
 source_packet: "2026-07-13-first-content"
 channel_status: "draft"
