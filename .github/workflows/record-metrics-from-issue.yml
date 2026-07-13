@@ -1,0 +1,122 @@
+name: record-metrics-from-issue
+
+on:
+  issues:
+    types:
+      - opened
+      - labeled
+
+jobs:
+  record-metrics:
+    if: |
+      github.event.label.name == 'record-metrics' ||
+      contains(github.event.issue.labels.*.name, 'record-metrics')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Extract Metrics and Execute Update
+        id: update
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          chmod +x scripts/update-metrics.sh scripts/generate-catalog.sh
+          python3 - <<'EOF'
+          import os, re, sys, subprocess
+
+          body = os.environ.get("ISSUE_BODY", "")
+          issue_num = os.environ.get("ISSUE_NUMBER", "")
+
+          def parse_section_multiline(label):
+              pattern = r"(?:###|\*\*)\s*" + re.escape(label) + r"(?:\*\*|)\s*\n+([\s\S]*?)(?=\n(?:###|\*\*)|\Z)"
+              m = re.search(pattern, body, re.IGNORECASE)
+              if m:
+                  val = m.group(1).strip()
+                  if val != "_No response_":
+                      return val
+              return ""
+
+          def parse_int(label, default=0):
+              s = parse_section_multiline(label)
+              if s:
+                  first_line = s.splitlines()[0].strip()
+                  if first_line.isdigit():
+                      return int(first_line)
+              return default
+
+          target = parse_section_multiline("Packet ID or Repository Path")
+          channel = parse_section_multiline("Target Channel File")
+          if not target or not channel:
+              print("ERROR: Missing target Packet ID or Target Channel File.", file=sys.stderr)
+              sys.exit(1)
+
+          target = target.splitlines()[0].strip()
+          channel = channel.splitlines()[0].strip()
+
+          packet_dir = target
+          if not os.path.isdir(packet_dir):
+              found = ""
+              for root, dirs, files in os.walk("content"):
+                  if "packet.yaml" in files:
+                      if os.path.basename(root) == target or os.path.relpath(root, ".") == target:
+                          found = root
+                          break
+              if not found:
+                  print(f"ERROR: Could not locate packet matching '{target}'.", file=sys.stderr)
+                  sys.exit(1)
+              packet_dir = found
+
+          impressions = parse_int("Impressions", 0)
+          engagements = parse_int("Engagements", 0)
+          likes = parse_int("Likes / Reactions", 0)
+          comments = parse_int("Comments / Replies", 0)
+          shares = parse_int("Shares / Reposts", 0)
+
+          cmd = [
+              "./scripts/update-metrics.sh",
+              "--packet", packet_dir,
+              "--channel", channel,
+              "--impressions", str(impressions),
+              "--engagements", str(engagements),
+              "--likes", str(likes),
+              "--comments", str(comments),
+              "--shares", str(shares)
+          ]
+          print("Running command:", " ".join(cmd))
+          res = subprocess.run(cmd, capture_output=True, text=True)
+          if res.returncode != 0:
+              print(f"ERROR updating metrics:\n{res.stderr}", file=sys.stderr)
+              sys.exit(1)
+          print(res.stdout)
+          EOF
+
+      - name: Re-index Catalog
+        run: |
+          ./scripts/generate-catalog.sh
+
+      - name: Commit and Push Updated Metrics
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A content/ registry/catalog.json
+          git commit -m "telemetry: record metrics via Issue #${{ github.event.issue.number }}" || echo "Nothing to commit"
+          git push origin main
+
+      - name: Comment and Close Issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue comment "${{ github.event.issue.number }}" --body "Successfully recorded performance metrics and recalculated packet aggregates."
+          gh issue close "${{ github.event.issue.number }}" --reason "completed"

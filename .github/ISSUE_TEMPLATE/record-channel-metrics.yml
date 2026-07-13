@@ -1,0 +1,79 @@
+name: Record Channel Performance Metrics
+description: Record post-publish telemetry metrics (impressions, engagements, likes) for a channel adaptation
+title: "[Metrics]: <packet-id> (<channel>)"
+labels:
+  - content
+  - record-metrics
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to record post-publish performance telemetry for a channel adaptation. The workflow will automatically update the channel front matter and recalculate packet aggregate metrics.
+
+  - type: input
+    id: packet_id
+    attributes:
+      label: Packet ID or Repository Path
+      description: Enter the exact Packet ID (e.g. 2026-07-12-sample-packet) or folder path under content/
+      placeholder: "2026-07-12-sample-packet"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: channel
+    attributes:
+      label: Target Channel File
+      description: Select which channel adaptation you are recording metrics for
+      options:
+        - channels/linkedin.md
+        - channels/x.md
+        - channels/facebook.md
+        - channels/blog.md
+        - channels/newsletter.md
+    validations:
+      required: true
+
+  - type: input
+    id: impressions
+    attributes:
+      label: Impressions
+      description: Total impressions or views
+      placeholder: "1250"
+    validations:
+      required: true
+
+  - type: input
+    id: engagements
+    attributes:
+      label: Engagements
+      description: Total engagements (clicks, reactions, replies)
+      placeholder: "85"
+    validations:
+      required: true
+
+  - type: input
+    id: likes
+    attributes:
+      label: Likes / Reactions
+      description: Total likes or positive reactions
+      placeholder: "45"
+    validations:
+      required: false
+
+  - type: input
+    id: comments
+    attributes:
+      label: Comments / Replies
+      description: Total comments or replies
+      placeholder: "12"
+    validations:
+      required: false
+
+  - type: input
+    id: shares
+    attributes:
+      label: Shares / Reposts
+      description: Total shares or reposts
+      placeholder: "8"
+    validations:
+      required: false
