@@ -188,8 +188,13 @@ if existing_packet_dir:
     if not args.update:
         print(f"ERROR: Packet directory already exists: {existing_packet_dir}. Use --update to synchronize changes.", file=sys.stderr)
         sys.exit(1)
-    print(f"INFO: Synchronizing updates into existing packet at {existing_packet_dir}")
-    packet_dir = existing_packet_dir
+    if existing_packet_dir != packet_dir:
+        print(f"INFO: Renaming packet directory from {existing_packet_dir} to {packet_dir}")
+        os.makedirs(os.path.dirname(packet_dir), exist_ok=True)
+        os.rename(existing_packet_dir, packet_dir)
+    else:
+        print(f"INFO: Synchronizing updates into existing packet at {packet_dir}")
+
     py_path = os.path.join(packet_dir, "packet.yaml")
     with open(py_path, encoding="utf-8") as f:
         py_content = f.read()
