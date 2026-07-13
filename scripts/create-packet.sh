@@ -152,7 +152,6 @@ year, month, _ = date_str.split("-")
 packet_id = f"{date_str}-{topic_str}"
 packet_dir = os.path.join("content", year, month, packet_id)
 
-# Check if packet exists either at packet_dir or by related_project lookup
 existing_packet_dir = ""
 if os.path.exists(packet_dir):
     existing_packet_dir = packet_dir
@@ -176,6 +175,11 @@ def format_yaml_field(key, items, indent=2):
         lines.append(f"{pad}  - {item}")
     return "\n".join(lines)
 
+def run_catalog_sync():
+    cat_script = os.path.join("scripts", "generate-catalog.sh")
+    if os.path.exists(cat_script):
+        subprocess.run([cat_script], capture_output=True)
+
 pillars_list = [p.strip() for p in args.pillars.split(",") if p.strip()]
 tags_list = [t.strip() for t in args.tags.split(",") if t.strip()]
 platforms_list = [p.strip().lower() for p in args.platforms.split(",") if p.strip()]
@@ -190,32 +194,36 @@ if existing_packet_dir:
     with open(py_path, encoding="utf-8") as f:
         py_content = f.read()
 
-    # Update metadata fields
-    py_content = re.sub(r'^title:\s*".*"', f'title: "{title_str}"', py_content, flags=re.M)
-    py_content = re.sub(r'^lifecycle_status:\s*".*"', f'lifecycle_status: "{args.status}"', py_content, flags=re.M)
-    py_content = re.sub(r'updated_at:\s*".*"', f'updated_at: "{now_iso}"', py_content)
-
-    # Re-scan channels
-    channels_manifest = []
-    channel_table_rows = []
-    for f_ch in sorted(glob.glob(os.path.join(packet_dir, "channels", "*.md"))):
-        rel_ch = os.path.relpath(f_ch, packet_dir)
-        channels_manifest.append(rel_ch)
+    # Prune unchecked draft channels
+    for f_ch in glob.glob(os.path.join(packet_dir, "channels", "*.md")):
         p_name = os.path.splitext(os.path.basename(f_ch))[0]
-        fmt = "post" if p_name in ["linkedin", "x", "facebook"] else ("article" if p_name == "blog" else "newsletter")
-        channel_table_rows.append(f"| [`{rel_ch}`]({rel_ch}) | `{p_name}` | `{fmt}` | `draft` |")
+        if platforms_list and p_name not in platforms_list:
+            with open(f_ch, encoding="utf-8") as cf:
+                cf_text = cf.read()
+            if 'channel_status: "draft"' in cf_text:
+                print(f"INFO: Removing unchecked draft channel {p_name}.md")
+                os.remove(f_ch)
 
-    # Generate any missing requested platforms
+    # Generate newly checked channels
     for plat in platforms_list:
         if plat not in VALID_PLATFORMS:
             continue
         ch_rel = f"channels/{plat}.md"
         ch_path = os.path.join(packet_dir, ch_rel)
         if not os.path.exists(ch_path):
-            channels_manifest.append(ch_rel)
+            tpl_file = PLATFORM_TEMPLATE_MAP.get(plat, "linkedin-post.md")
+            tpl_path = os.path.join("templates", "channels", tpl_file)
             fmt = "post" if plat in ["linkedin", "x", "facebook"] else ("article" if plat == "blog" else "newsletter")
-            channel_table_rows.append(f"| [`{ch_rel}`]({ch_rel}) | `{plat}` | `{fmt}` | `draft` |")
-            fm_content = f"""---
+            if os.path.exists(tpl_path):
+                with open(tpl_path, encoding="utf-8") as f:
+                    c_text = f.read()
+                c_text = re.sub(r'source_packet:\s*"[^"\n]*"', f'source_packet: "{packet_id}"', c_text)
+                c_text = re.sub(r'channel_id:\s*"[^"\n]*"', f'channel_id: "{plat}-primary"', c_text)
+                c_text = re.sub(r'platform:\s*"[^"\n]*"', f'platform: "{plat}"', c_text)
+                with open(ch_path, "w", encoding="utf-8") as f:
+                    f.write(c_text)
+            else:
+                fm_content = f"""---
 channel_id: "{plat}-primary"
 platform: "{plat}"
 format: "{fmt}"
@@ -248,8 +256,18 @@ performance_metrics:
 
 Write the channel-native draft here.
 """
-            with open(ch_path, "w", encoding="utf-8") as f:
-                f.write(fm_content)
+                with open(ch_path, "w", encoding="utf-8") as f:
+                    f.write(fm_content)
+
+    # Re-scan remaining channels for manifest and table
+    channels_manifest = []
+    channel_table_rows = []
+    for f_ch in sorted(glob.glob(os.path.join(packet_dir, "channels", "*.md"))):
+        rel_ch = os.path.relpath(f_ch, packet_dir)
+        channels_manifest.append(rel_ch)
+        p_name = os.path.splitext(os.path.basename(f_ch))[0]
+        fmt = "post" if p_name in ["linkedin", "x", "facebook"] else ("article" if p_name == "blog" else "newsletter")
+        channel_table_rows.append(f"| [`{rel_ch}`]({rel_ch}) | `{p_name}` | `{fmt}` | `draft` |")
 
     # Update taxonomy block
     pillars_yaml = format_yaml_field("pillars", pillars_list, indent=2)
@@ -374,6 +392,7 @@ Record post-publish telemetry metrics:
     with open(os.path.join(packet_dir, "README.md"), "w", encoding="utf-8") as f:
         f.write(readme_content)
 
+    run_catalog_sync()
     print(f"SUCCESS: Synchronized updates into packet at {packet_dir}")
     sys.exit(0)
 
@@ -583,5 +602,6 @@ Record post-publish telemetry metrics:
 with open(os.path.join(packet_dir, "README.md"), "w", encoding="utf-8") as f:
     f.write(readme_content)
 
+run_catalog_sync()
 print(f"SUCCESS: Created content packet at {packet_dir}")
 EOF
