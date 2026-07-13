@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "generated_at": "2026-07-13T19:56:39Z",
+  "generated_at": "2026-07-13T21:48:14Z",
   "total_packets": 3,
   "packets": [
     {
@@ -10,7 +10,30 @@
       "topic": "first-content",
       "lifecycle_status": "idea",
       "path": "content/2026/07/2026-07-13-first-content",
-      "pillars": [],
+      "taxonomy": {
+        "pillars": [
+          "test-pillar"
+        ],
+        "tags": [
+          "test-tag"
+        ],
+        "campaign": "",
+        "series": ""
+      },
+      "lineage": {
+        "repurposed_from": "",
+        "related_project": "ISSUE-1"
+      },
+      "governance": {
+        "created_at": "2026-07-13T15:57:46Z",
+        "updated_at": "2026-07-13T19:56:39Z",
+        "author": "content-engine"
+      },
+      "aggregate_metrics": {
+        "total_impressions": 0,
+        "total_engagements": 0,
+        "last_updated": ""
+      },
       "channels": [
         "channels/blog.md",
         "channels/linkedin.md",
@@ -24,7 +47,32 @@
       "topic": "2nd-content",
       "lifecycle_status": "idea",
       "path": "content/2026/07/2026-07-13-2nd-content",
-      "pillars": [],
+      "taxonomy": {
+        "pillars": [
+          "2nd-piller",
+          "2nd-pillers"
+        ],
+        "tags": [
+          "2nd-tag",
+          "2nd-tags"
+        ],
+        "campaign": "",
+        "series": ""
+      },
+      "lineage": {
+        "repurposed_from": "",
+        "related_project": "ISSUE-2"
+      },
+      "governance": {
+        "created_at": "2026-07-13T17:07:48Z",
+        "updated_at": "2026-07-13T18:16:59Z",
+        "author": "content-engine"
+      },
+      "aggregate_metrics": {
+        "total_impressions": 0,
+        "total_engagements": 0,
+        "last_updated": ""
+      },
       "channels": [
         "channels/blog.md",
         "channels/facebook.md",
@@ -40,7 +88,32 @@
       "topic": "sample-packet",
       "lifecycle_status": "drafting",
       "path": "content/2026/07/2026-07-12-sample-packet",
-      "pillars": [],
+      "taxonomy": {
+        "pillars": [
+          "platform-engineering",
+          "architecture"
+        ],
+        "tags": [
+          "content-strategy",
+          "dev-tools"
+        ],
+        "campaign": "q3-platform-launch",
+        "series": "architecture-deep-dives"
+      },
+      "lineage": {
+        "repurposed_from": "",
+        "related_project": ""
+      },
+      "governance": {
+        "created_at": "2026-07-12T12:00:00Z",
+        "updated_at": "2026-07-13T18:00:00Z",
+        "author": "content-engine"
+      },
+      "aggregate_metrics": {
+        "total_impressions": 1200,
+        "total_engagements": 85,
+        "last_updated": "2026-07-13T14:02:27Z"
+      },
       "channels": [
         "channels/linkedin.md",
         "channels/x.md",

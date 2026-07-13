@@ -33,6 +33,7 @@ jobs:
         env:
           ISSUE_BODY: ${{ github.event.issue.body }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
         run: |
           python3 - <<'EOF'
           import os, re, sys, subprocess
@@ -96,6 +97,7 @@ jobs:
               "--pillars", pillars,
               "--tags", tags,
               "--related-project", f"ISSUE-{issue_num}",
+              "--author", os.environ.get("ISSUE_AUTHOR", "content-engine"),
               "--update"
           ]
           print("Running command:", " ".join(cmd))
