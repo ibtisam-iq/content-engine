@@ -1,7 +1,9 @@
 name: Delete Content Packet
 description: Delete an existing content packet directory and remove it from the catalog
 title: "[Delete]: <packet-id-or-path>"
-labels: ["delete-packet"]
+labels:
+  - content
+  - delete-packet
 body:
   - type: markdown
     attributes:
