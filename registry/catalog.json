@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "generated_at": "2026-07-13T18:16:59Z",
+  "generated_at": "2026-07-13T18:37:24Z",
   "total_packets": 3,
   "packets": [
     {
@@ -12,6 +12,8 @@
       "path": "content/2026/07/2026-07-13-first-content",
       "pillars": [],
       "channels": [
+        "channels/blog.md",
+        "channels/facebook.md",
         "channels/linkedin.md",
         "channels/x.md"
       ]
