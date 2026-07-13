@@ -5,10 +5,10 @@ topic: "2nd-content"
 lifecycle_status: "idea"
 
 taxonomy:
-  pillars: 
+  pillars:
     - 2nd-piller
     - 2nd-pillers
-  tags: 
+  tags:
     - 2nd-tag
     - 2nd-tags
   campaign: ""
@@ -20,7 +20,7 @@ lineage:
 
 governance:
   created_at: "2026-07-13T17:07:48Z"
-  updated_at: "2026-07-13T17:07:48Z"
+  updated_at: "2026-07-13T18:16:59Z"
   author: "content-engine"
   reviewers: []
 
@@ -29,9 +29,9 @@ aggregate_metrics:
   total_engagements: 0
   last_updated: ""
 
-channels_manifest: 
-  - channels/linkedin.md
-  - channels/x.md
-  - channels/facebook.md
+channels_manifest:
   - channels/blog.md
+  - channels/facebook.md
+  - channels/linkedin.md
   - channels/newsletter.md
+  - channels/x.md
