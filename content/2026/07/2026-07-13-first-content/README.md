@@ -28,7 +28,6 @@ This is first content.
 
 | Channel File | Platform | Output Format | Initial Status |
 | :--- | :--- | :--- | :--- |
-| [`channels/blog.md`](channels/blog.md) | `blog` | `article` | `draft` |
 | [`channels/facebook.md`](channels/facebook.md) | `facebook` | `post` | `draft` |
 | [`channels/linkedin.md`](channels/linkedin.md) | `linkedin` | `post` | `draft` |
 | [`channels/x.md`](channels/x.md) | `x` | `post` | `draft` |
