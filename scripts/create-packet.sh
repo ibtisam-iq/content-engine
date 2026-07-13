@@ -8,10 +8,10 @@ python3 - "$@" <<'EOF'
 import os, sys, argparse, re, json, shutil, subprocess
 from datetime import datetime, timezone
 
-VALID_LIFECYCLE = {
+VALID_LIFECYCLE = [
     "idea", "briefing", "drafting", "review", "ready",
     "distributing", "published", "evergreen", "archived"
-}
+]
 
 VALID_PLATFORMS = {"linkedin", "x", "facebook", "blog", "newsletter"}
 
@@ -23,11 +23,14 @@ PLATFORM_TEMPLATE_MAP = {
     "newsletter": "newsletter-issue.md"
 }
 
-parser = argparse.ArgumentParser(description="Create a new content packet under content/YYYY/MM/YYYY-MM-DD-topic-slug/.")
+parser = argparse.ArgumentParser(
+    prog="create-packet.sh",
+    description="Create a new content packet under content/YYYY/MM/YYYY-MM-DD-topic-slug/."
+)
 parser.add_argument("--date", help="Publication/event date YYYY-MM-DD")
 parser.add_argument("--topic", help="Topic slug (lowercase, hyphens)")
 parser.add_argument("--title", help="Packet title")
-parser.add_argument("--status", default="idea", choices=list(VALID_LIFECYCLE), help="Initial lifecycle status")
+parser.add_argument("--status", default="idea", choices=VALID_LIFECYCLE, help="Initial lifecycle status")
 parser.add_argument("--context", default="", help="Strategic context text provided by issue intake or user")
 parser.add_argument("--pillars", default="", help="Comma-separated pillars")
 parser.add_argument("--tags", default="", help="Comma-separated tags")
@@ -104,7 +107,7 @@ if args.from_issue:
 source_packet_id = ""
 source_dir = ""
 if args.from_packet:
-    source_dir = args.from_packet
+    source_dir = args.from_packet.strip()
     if not os.path.exists(source_dir):
         print(f"ERROR: Source packet directory not found: {source_dir}", file=sys.stderr)
         sys.exit(1)
@@ -117,7 +120,7 @@ if args.from_packet:
         if m_title and not args.title:
             args.title = f"Repurposed: {m_title.group(1)}"
 
-date_str = args.date
+date_str = args.date.strip() if args.date else ""
 if not date_str:
     date_str = input("Enter packet date (YYYY-MM-DD): ").strip()
 
@@ -125,7 +128,7 @@ if not re.match(r"^\d{4}-\d{2}-\d{2}$", date_str):
     print("ERROR: Date must be in YYYY-MM-DD format.", file=sys.stderr)
     sys.exit(1)
 
-topic_str = args.topic
+topic_str = args.topic.strip() if args.topic else ""
 if not topic_str:
     topic_str = input("Enter topic slug (lowercase, hyphens): ").strip()
 
@@ -133,7 +136,7 @@ if not re.match(r"^[a-z0-9]+(-[a-z0-9]+)*$", topic_str):
     print("ERROR: Topic slug must contain only lowercase letters, digits, and hyphens.", file=sys.stderr)
     sys.exit(1)
 
-title_str = args.title
+title_str = args.title.strip() if args.title else ""
 if not title_str:
     title_str = input("Enter packet title: ").strip()
     if not title_str:
@@ -221,15 +224,18 @@ Write the channel-native draft here.
 pillars_list = [p.strip() for p in args.pillars.split(",") if p.strip()]
 tags_list = [t.strip() for t in args.tags.split(",") if t.strip()]
 
-def format_yaml_list(items):
+def format_yaml_field(key, items, indent=2):
+    pad = " " * indent
     if not items:
-        return "[]"
-    return "\n" + "\n".join(f"    - {item}" for item in items)
+        return f"{pad}{key}: []"
+    lines = [f"{pad}{key}:"]
+    for item in items:
+        lines.append(f"{pad}  - {item}")
+    return "\n".join(lines)
 
-def format_manifest_list(items):
-    if not items:
-        return "[]"
-    return "\n" + "\n".join(f"  - {item}" for item in items)
+pillars_yaml = format_yaml_field("pillars", pillars_list, indent=2)
+tags_yaml = format_yaml_field("tags", tags_list, indent=2)
+manifest_yaml = format_yaml_field("channels_manifest", channels_manifest, indent=0)
 
 packet_yaml_content = f"""packet_id: "{packet_id}"
 title: "{title_str}"
@@ -238,14 +244,14 @@ topic: "{topic_str}"
 lifecycle_status: "{args.status}"
 
 taxonomy:
-  pillars: {format_yaml_list(pillars_list)}
-  tags: {format_yaml_list(tags_list)}
-  campaign: "{args.campaign}"
-  series: "{args.series}"
+{pillars_yaml}
+{tags_yaml}
+  campaign: "{args.campaign.strip()}"
+  series: "{args.series.strip()}"
 
 lineage:
   repurposed_from: "{source_packet_id}"
-  related_project: "{args.related_project}"
+  related_project: "{args.related_project.strip()}"
 
 governance:
   created_at: "{now_iso}"
@@ -258,7 +264,7 @@ aggregate_metrics:
   total_engagements: 0
   last_updated: ""
 
-channels_manifest: {format_manifest_list(channels_manifest)}
+{manifest_yaml}
 """
 
 with open(os.path.join(packet_dir, "packet.yaml"), "w", encoding="utf-8") as f:
