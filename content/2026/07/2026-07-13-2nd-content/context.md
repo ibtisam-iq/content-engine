@@ -3,7 +3,6 @@
 ## Submitted Issue Context
 
 this is 2nd content
-
 ---
 
 # Canonical Strategic Brief (`context.md`)
