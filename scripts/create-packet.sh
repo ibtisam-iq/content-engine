@@ -15,12 +15,12 @@ VALID_LIFECYCLE = {
 
 VALID_PLATFORMS = {"linkedin", "x", "facebook", "blog", "newsletter"}
 
-PLATFORM_FORMAT_MAP = {
-    "linkedin": "post",
-    "x": "post",
-    "facebook": "post",
-    "blog": "article",
-    "newsletter": "newsletter"
+PLATFORM_TEMPLATE_MAP = {
+    "linkedin": "linkedin-post.md",
+    "x": "x-post.md",
+    "facebook": "linkedin-post.md",
+    "blog": "blog-article.md",
+    "newsletter": "newsletter-issue.md"
 }
 
 parser = argparse.ArgumentParser(description="Create a new content packet under content/YYYY/MM/YYYY-MM-DD-topic-slug/.")
@@ -28,6 +28,7 @@ parser.add_argument("--date", help="Publication/event date YYYY-MM-DD")
 parser.add_argument("--topic", help="Topic slug (lowercase, hyphens)")
 parser.add_argument("--title", help="Packet title")
 parser.add_argument("--status", default="idea", choices=list(VALID_LIFECYCLE), help="Initial lifecycle status")
+parser.add_argument("--context", default="", help="Strategic context text provided by issue intake or user")
 parser.add_argument("--pillars", default="", help="Comma-separated pillars")
 parser.add_argument("--tags", default="", help="Comma-separated tags")
 parser.add_argument("--campaign", default="", help="Campaign name")
@@ -39,19 +40,23 @@ parser.add_argument("--from", dest="from_packet", default="", help="Clone from e
 
 args = parser.parse_args()
 
-def parse_issue_body(body):
-    fields = {}
-    for label in ["Title", "Date", "Topic Slug", "Topic slug", "Target Platforms", "Platforms", "Content Pillars", "Pillars", "Tags", "Campaign", "Series", "Related Project"]:
-        m = re.search(r"###\s*" + label + r"\s*\n+([^\n#]+)", body, re.IGNORECASE)
-        if m:
-            fields[label.lower()] = m.group(1).strip()
-            continue
-        m2 = re.search(r"\*\*" + label + r"\*\*:\s*([^\n]+)", body, re.IGNORECASE)
-        if m2:
-            fields[label.lower()] = m2.group(1).strip()
-    return fields
+def parse_section_multiline(body, label):
+    pattern = r"(?:###|\*\*)\s*" + re.escape(label) + r"(?:\*\*|)\s*\n+([\s\S]*?)(?=\n(?:###|\*\*)|\Z)"
+    m = re.search(pattern, body, re.IGNORECASE)
+    if m:
+        val = m.group(1).strip()
+        if val != "_No response_":
+            return val
+    return ""
 
-# Handle --from-issue
+def parse_checkboxes(section_text):
+    selected = []
+    for line in section_text.splitlines():
+        if re.match(r"^\s*-\s*\[[xX]\]\s*", line):
+            val = re.sub(r"^\s*-\s*\[[xX]\]\s*", "", line).strip().lower()
+            selected.append(val)
+    return selected
+
 if args.from_issue:
     issue_num = args.from_issue.strip()
     print(f"INFO: Fetching Issue #{issue_num} metadata...")
@@ -75,23 +80,27 @@ if args.from_issue:
             print(f"WARNING: Could not fetch issue #{issue_num} via API: {e}", file=sys.stderr)
 
     if issue_data:
-        parsed = parse_issue_body(issue_data.get("body", ""))
+        body_txt = issue_data.get("body", "")
+        title_val = parse_section_multiline(body_txt, "Title")
+        date_val = parse_section_multiline(body_txt, "Date")
+        topic_val = parse_section_multiline(body_txt, "Topic Slug") or parse_section_multiline(body_txt, "Topic slug")
+        context_val = parse_section_multiline(body_txt, "Strategic Context") or parse_section_multiline(body_txt, "Context")
+        plat_section = parse_section_multiline(body_txt, "Target Platforms") or parse_section_multiline(body_txt, "Platforms")
+        plat_checked = parse_checkboxes(plat_section)
+
         if not args.title:
-            args.title = parsed.get("title") or issue_data.get("title") or f"Issue #{issue_num}"
+            args.title = title_val or issue_data.get("title") or f"Issue #{issue_num}"
         if not args.date:
-            args.date = parsed.get("date", "")
+            args.date = date_val.split("\n")[0].strip() if date_val else ""
         if not args.topic:
-            args.topic = parsed.get("topic slug") or f"issue-{issue_num}"
-        if parsed.get("target platforms") or parsed.get("platforms"):
-            args.platforms = parsed.get("target platforms") or parsed.get("platforms")
-        if parsed.get("content pillars") or parsed.get("pillars"):
-            args.pillars = parsed.get("content pillars") or parsed.get("pillars")
-        if parsed.get("tags"):
-            args.tags = parsed.get("tags")
+            args.topic = topic_val.split("\n")[0].strip() if topic_val else f"issue-{issue_num}"
+        if not args.context:
+            args.context = context_val
+        if plat_checked:
+            args.platforms = ",".join(plat_checked)
         if not args.related_project:
             args.related_project = f"ISSUE-{issue_num}"
 
-# Handle --from (cloning metadata from source packet)
 source_packet_id = ""
 source_dir = ""
 if args.from_packet:
@@ -156,13 +165,24 @@ for plat in platforms_list:
     if plat not in VALID_PLATFORMS:
         print(f"WARNING: Unknown platform '{plat}', skipping.", file=sys.stderr)
         continue
-    fmt = PLATFORM_FORMAT_MAP.get(plat, "post")
     ch_file = f"{plat}.md"
     ch_rel = f"channels/{ch_file}"
     channels_manifest.append(ch_rel)
     ch_path = os.path.join(packet_dir, ch_rel)
-    
-    fm_content = f"""---
+
+    tpl_file = PLATFORM_TEMPLATE_MAP.get(plat, "linkedin-post.md")
+    tpl_path = os.path.join("templates", "channels", tpl_file)
+    if os.path.exists(tpl_path):
+        with open(tpl_path, encoding="utf-8") as f:
+            c_text = f.read()
+        c_text = re.sub(r'source_packet:\s*"[^"\n]*"', f'source_packet: "{packet_id}"', c_text)
+        c_text = re.sub(r'channel_id:\s*"[^"\n]*"', f'channel_id: "{plat}-primary"', c_text)
+        c_text = re.sub(r'platform:\s*"[^"\n]*"', f'platform: "{plat}"', c_text)
+        with open(ch_path, "w", encoding="utf-8") as f:
+            f.write(c_text)
+    else:
+        fmt = "post" if plat in ["linkedin", "x", "facebook"] else ("article" if plat == "blog" else "newsletter")
+        fm_content = f"""---
 channel_id: "{plat}-primary"
 platform: "{plat}"
 format: "{fmt}"
@@ -195,8 +215,8 @@ performance_metrics:
 
 Write the channel-native draft here.
 """
-    with open(ch_path, "w", encoding="utf-8") as f:
-        f.write(fm_content)
+        with open(ch_path, "w", encoding="utf-8") as f:
+            f.write(fm_content)
 
 pillars_list = [p.strip() for p in args.pillars.split(",") if p.strip()]
 tags_list = [t.strip() for t in args.tags.split(",") if t.strip()]
@@ -244,7 +264,6 @@ channels_manifest: {format_manifest_list(channels_manifest)}
 with open(os.path.join(packet_dir, "packet.yaml"), "w", encoding="utf-8") as f:
     f.write(packet_yaml_content)
 
-# Copy or scaffold secondary files (context.md, source-material.md, notes.md, README.md)
 if source_dir:
     for doc in ["context.md", "source-material.md", "notes.md"]:
         src_file = os.path.join(source_dir, doc)
@@ -254,12 +273,24 @@ if source_dir:
             with open(os.path.join(packet_dir, doc), "w", encoding="utf-8") as f:
                 f.write(f"# {doc}\n\nCloned from {source_packet_id}.\n")
 else:
+    context_tpl_path = os.path.join("templates", "packet", "context.md")
+    if os.path.exists(context_tpl_path):
+        with open(context_tpl_path, encoding="utf-8") as f:
+            ctx_text = f.read()
+        if args.context:
+            ctx_text = f"# Strategic Context: {title_str}\n\n## Submitted Issue Context\n\n{args.context.strip()}\n\n---\n\n" + ctx_text
+    else:
+        ctx_text = f"# Strategic Context: {title_str}\n\n{args.context.strip() if args.context else ''}\n"
     with open(os.path.join(packet_dir, "context.md"), "w", encoding="utf-8") as f:
-        f.write(f"# Strategic Context: {title_str}\n\n## 1. Event Summary\n\n## 2. Audience & Personas\n\n## 3. Core Thesis\n\n## 4. Tone & Constraints\n")
-    with open(os.path.join(packet_dir, "source-material.md"), "w", encoding="utf-8") as f:
-        f.write(f"# Source Material: {title_str}\n\n## 1. Architecture Diagrams\n\n## 2. Code Snippets\n\n## 3. Reference Links\n")
-    with open(os.path.join(packet_dir, "notes.md"), "w", encoding="utf-8") as f:
-        f.write(f"# Editorial Notes: {title_str}\n\n## Retrospective Notes\n")
+        f.write(ctx_text)
+
+    for doc in ["source-material.md", "notes.md"]:
+        tpl_doc = os.path.join("templates", "packet", doc)
+        if os.path.exists(tpl_doc):
+            shutil.copyfile(tpl_doc, os.path.join(packet_dir, doc))
+        else:
+            with open(os.path.join(packet_dir, doc), "w", encoding="utf-8") as f:
+                f.write(f"# {doc}\n")
 
 with open(os.path.join(packet_dir, "README.md"), "w", encoding="utf-8") as f:
     f.write(f"# {title_str}\n\nPacket ID: `{packet_id}`\nLifecycle Status: `{args.status}`\n")
