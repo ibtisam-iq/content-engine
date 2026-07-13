@@ -3,6 +3,7 @@ name: create-packet-from-issue
 on:
   issues:
     types:
+      - opened
       - labeled
       - edited
       - reopened
@@ -106,6 +107,10 @@ jobs:
           
           year, month, _ = date.split("-")
           packet_dir = f"content/{year}/{month}/{date}-{topic}"
+          for line in res.stdout.splitlines():
+              if "SUCCESS:" in line and "at content/" in line:
+                  packet_dir = line.split("at ")[-1].strip()
+                  break
           with open(os.environ["GITHUB_OUTPUT"], "a") as f:
               f.write(f"packet_dir={packet_dir}\n")
           EOF
