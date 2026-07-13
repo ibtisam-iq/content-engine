@@ -35,40 +35,57 @@ jobs:
           body = os.environ.get("ISSUE_BODY", "")
           issue_num = os.environ.get("ISSUE_NUMBER", "")
 
-          def parse_field(label):
-              m = re.search(r"###\s*" + label + r"\s*\n+([^\n#]+)", body, re.IGNORECASE)
+          def parse_section_multiline(label):
+              pattern = r"(?:###|\*\*)\s*" + re.escape(label) + r"(?:\*\*|)\s*\n+([\s\S]*?)(?=\n(?:###|\*\*)|\Z)"
+              m = re.search(pattern, body, re.IGNORECASE)
               if m:
-                  return m.group(1).strip()
-              m2 = re.search(r"\*\*" + label + r"\*\*:\s*([^\n]+)", body, re.IGNORECASE)
-              return m2.group(1).strip() if m2 else ""
+                  val = m.group(1).strip()
+                  if val != "_No response_":
+                      return val
+              return ""
 
-          title = parse_field("Title") or f"Issue #{issue_num} Packet"
-          date = parse_field("Date") or "2026-07-15"
-          topic = parse_field("Topic Slug") or parse_field("Topic slug") or f"issue-{issue_num}"
-          platforms = parse_field("Target Platforms") or parse_field("Platforms") or "linkedin,x,blog"
-          pillars = parse_field("Content Pillars") or parse_field("Pillars") or "platform-engineering"
-          tags = parse_field("Tags") or "architecture"
-          campaign = parse_field("Campaign") or ""
-          series = parse_field("Series") or ""
+          def parse_checkboxes(section_text):
+              selected = []
+              for line in section_text.splitlines():
+                  if re.match(r"^\s*-\s*\[[xX]\]\s*", line):
+                      val = re.sub(r"^\s*-\s*\[[xX]\]\s*", "", line).strip().lower()
+                      selected.append(val)
+              return selected
 
-          # Clean up checkbox formatting if from issue forms
-          platforms_clean = []
-          for p in ["linkedin", "x", "facebook", "blog", "newsletter"]:
-              if p in platforms.lower():
-                  platforms_clean.append(p)
-          if not platforms_clean:
-              platforms_clean = ["linkedin", "x", "blog"]
+          title = parse_section_multiline("Title")
+          if title:
+              title = title.splitlines()[0].strip()
+          else:
+              title = f"Issue #{issue_num} Packet"
+
+          date_str = parse_section_multiline("Date")
+          date = date_str.splitlines()[0].strip() if date_str else "2026-07-15"
+
+          topic_str = parse_section_multiline("Topic Slug") or parse_section_multiline("Topic slug")
+          topic = topic_str.splitlines()[0].strip() if topic_str else f"issue-{issue_num}"
+
+          context_text = parse_section_multiline("Strategic Context") or parse_section_multiline("Context")
+
+          plat_section = parse_section_multiline("Target Platforms") or parse_section_multiline("Platforms")
+          plat_checked = parse_checkboxes(plat_section)
+          if not plat_checked:
+              plat_checked = ["linkedin", "x", "blog"]
+
+          pillars_str = parse_section_multiline("Content Pillars") or parse_section_multiline("Pillars")
+          pillars = pillars_str.splitlines()[0].strip() if pillars_str else "platform-engineering"
+
+          tags_str = parse_section_multiline("Tags")
+          tags = tags_str.splitlines()[0].strip() if tags_str else "architecture"
 
           cmd = [
               "./scripts/create-packet.sh",
               "--date", date,
               "--topic", topic,
               "--title", title,
-              "--platforms", ",".join(platforms_clean),
+              "--context", context_text,
+              "--platforms", ",".join(plat_checked),
               "--pillars", pillars,
               "--tags", tags,
-              "--campaign", campaign,
-              "--series", series,
               "--related-project", f"ISSUE-{issue_num}"
           ]
           print("Running command:", " ".join(cmd))
@@ -78,7 +95,6 @@ jobs:
               sys.exit(1)
           print(res.stdout)
           
-          # Output folder path
           year, month, _ = date.split("-")
           packet_dir = f"content/{year}/{month}/{date}-{topic}"
           with open(os.environ["GITHUB_OUTPUT"], "a") as f:
