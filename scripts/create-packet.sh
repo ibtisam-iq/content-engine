@@ -40,9 +40,23 @@ parser.add_argument("--related-project", default="", help="Related project ident
 parser.add_argument("--platforms", default="linkedin,x,facebook,blog", help="Comma-separated target platforms")
 parser.add_argument("--from-issue", default="", help="Create packet from GitHub issue number")
 parser.add_argument("--from", dest="from_packet", default="", help="Clone from existing packet directory")
+parser.add_argument("--author", default="", help="Author name or GitHub handle")
 parser.add_argument("--update", action="store_true", help="Update existing packet if it already exists")
 
 args = parser.parse_args()
+
+def get_default_author():
+    if args.author.strip():
+        return args.author.strip()
+    try:
+        res = subprocess.run(["git", "config", "user.name"], capture_output=True, text=True)
+        if res.returncode == 0 and res.stdout.strip():
+            return res.stdout.strip()
+    except Exception:
+        pass
+    return os.environ.get("USER", "content-engine")
+
+author_val = get_default_author()
 
 def parse_section_multiline(body, label):
     pattern = r"(?:###|\*\*)\s*" + re.escape(label) + r"(?:\*\*|)\s*\n+([\s\S]*?)(?=\n(?:###|\*\*)|\Z)"
@@ -93,6 +107,8 @@ if args.from_issue:
         plat_section = parse_section_multiline(body_txt, "Target Platforms") or parse_section_multiline(body_txt, "Platforms")
         plat_checked = parse_checkboxes(plat_section)
 
+        if not args.author:
+            author_val = issue_data.get("author", {}).get("login") or issue_data.get("user", {}).get("login") or author_val
         if not args.title:
             args.title = title_val or issue_data.get("title") or f"Issue #{issue_num}"
         if status_val and args.status == "idea":
@@ -303,7 +319,7 @@ lineage:
 governance:
   created_at: "{created_at_val}"
   updated_at: "{now_iso}"
-  author: "content-engine"
+  author: "{author_val}"
   reviewers: []
 
 aggregate_metrics:
@@ -496,7 +512,7 @@ lineage:
 governance:
   created_at: "{now_iso}"
   updated_at: "{now_iso}"
-  author: "content-engine"
+  author: "{author_val}"
   reviewers: []
 
 aggregate_metrics:

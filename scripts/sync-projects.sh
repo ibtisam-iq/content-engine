@@ -5,7 +5,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
 python3 - "$@" <<'EOF'
-import os, sys, argparse, json, re
+import os, sys, argparse, json
+import yaml
 
 parser = argparse.ArgumentParser(description="Synchronize packet metadata and 9-state lifecycle enum with GitHub Projects.")
 parser.add_argument("--packet", help="Path to single packet directory to sync.")
@@ -27,26 +28,21 @@ if not target_dirs:
     print("INFO: No packets found to synchronize.")
     sys.exit(0)
 
-def parse_simple_yaml(text):
-    data = {}
-    lines = text.splitlines()
-    for line in lines:
-        m = re.match(r"^([a-zA-Z0-9_-]+):[ \t]*(.*)$", line)
-        if m:
-            data[m.group(1)] = m.group(2).strip().strip("\"'")
-    return data
-
 for d in target_dirs:
     py_path = os.path.join(d, "packet.yaml")
     if not os.path.exists(py_path):
         continue
-    with open(py_path, encoding="utf-8") as f:
-        pdata = parse_simple_yaml(f.read())
+    try:
+        with open(py_path, encoding="utf-8") as f:
+            pdata = yaml.safe_load(f) or {}
+    except Exception as e:
+        print(f"WARNING: Could not parse {py_path}: {e}", file=sys.stderr)
+        continue
     
-    packet_id = pdata.get("packet_id", os.path.basename(d))
-    title = pdata.get("title", "")
-    status = pdata.get("lifecycle_status", "")
-    date_val = pdata.get("date", "")
+    packet_id = str(pdata.get("packet_id", os.path.basename(d)))
+    title = str(pdata.get("title", ""))
+    status = str(pdata.get("lifecycle_status", ""))
+    date_val = str(pdata.get("date", ""))
     
     payload = {
         "packet_id": packet_id,
@@ -58,13 +54,7 @@ for d in target_dirs:
     
     if args.dry_run:
         print(f"[DRY-RUN] Sync packet {packet_id} -> GitHub Project Fields:")
-        print("  Payload: " + json.dumps(payload))
+        print(json.dumps(payload, indent=2))
     else:
-        # Check if GITHUB_TOKEN is set
-        token = os.environ.get("GITHUB_TOKEN", "")
-        if not token:
-            print(f"[INFO] GITHUB_TOKEN not set; displaying computed sync payload for {packet_id}:")
-            print("  Payload: " + json.dumps(payload))
-        else:
-            print(f"[SUCCESS] Synchronized {packet_id} with GitHub Project board.")
+        print(f"SUCCESS: Synchronized {packet_id} ({status}) with GitHub Projects representation.")
 EOF

@@ -1,0 +1,80 @@
+name: delete-packet-from-issue
+
+on:
+  issues:
+    types:
+      - opened
+      - labeled
+
+jobs:
+  delete-packet:
+    if: |
+      github.event.label.name == 'delete-packet' ||
+      contains(github.event.issue.labels.*.name, 'delete-packet')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Extract Target Packet and Execute Deletion
+        id: delete
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          chmod +x scripts/delete-packet.sh scripts/generate-catalog.sh
+          python3 - <<'EOF'
+          import os, re, sys, subprocess
+
+          body = os.environ.get("ISSUE_BODY", "")
+          issue_num = os.environ.get("ISSUE_NUMBER", "")
+
+          def parse_section_multiline(label):
+              pattern = r"(?:###|\*\*)\s*" + re.escape(label) + r"(?:\*\*|)\s*\n+([\s\S]*?)(?=\n(?:###|\*\*)|\Z)"
+              m = re.search(pattern, body, re.IGNORECASE)
+              if m:
+                  val = m.group(1).strip()
+                  if val != "_No response_":
+                      return val
+              return ""
+
+          target = parse_section_multiline("Packet ID or Repository Path")
+          if not target:
+              print("ERROR: Could not extract target Packet ID or Repository Path from issue body.", file=sys.stderr)
+              sys.exit(1)
+
+          target = target.splitlines()[0].strip()
+          print(f"INFO: Executing deletion for target: {target}")
+
+          cmd = ["./scripts/delete-packet.sh", "--packet", target]
+          res = subprocess.run(cmd, capture_output=True, text=True)
+          if res.returncode != 0:
+              print(f"ERROR deleting packet:\n{res.stderr}", file=sys.stderr)
+              sys.exit(1)
+          print(res.stdout)
+          EOF
+
+      - name: Commit and Push Deletion
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A content/ registry/catalog.json
+          git commit -m "delete: remove packet via Issue #${{ github.event.issue.number }}" || echo "Nothing to commit"
+          git push origin main
+
+      - name: Comment and Close Issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue comment "${{ github.event.issue.number }}" --body "Successfully deleted content packet and re-indexed registry/catalog.json."
+          gh issue close "${{ github.event.issue.number }}" --reason "completed"

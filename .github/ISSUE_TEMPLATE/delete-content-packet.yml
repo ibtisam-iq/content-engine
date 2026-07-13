@@ -1,0 +1,36 @@
+name: Delete Content Packet
+description: Delete an existing content packet directory and remove it from the catalog
+title: "[Delete]: <packet-id-or-path>"
+labels: ["delete-packet"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to permanently delete a content packet from the repository and re-index `registry/catalog.json`.
+
+  - type: input
+    id: packet_id
+    attributes:
+      label: Packet ID or Repository Path
+      description: Enter the exact Packet ID (e.g. 2026-07-13-first-content) or directory path under content/
+      placeholder: "2026-07-13-first-content"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Reason for Deletion
+      description: Explain why this content packet is being removed
+      placeholder: "Duplicate entry / cancelled initiative..."
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      description: Confirm permanent removal
+      options:
+        - label: I confirm that I want to permanently delete this packet directory and remove it from the catalog.
+          required: true

@@ -4,83 +4,57 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
-# Helper: usage
-usage() {
-  cat <<EOF
-Usage: $0 [--status <status>] [--tag <tag>] [--pillar <pillar>]
-  Generate a summary report of packets.
-  Options can be repeated to filter on multiple values.
+python3 - "$@" <<'EOF'
+import os, sys, argparse
+import yaml
+
+parser = argparse.ArgumentParser(description="Generate a summary report of content packets.")
+parser.add_argument("--status", action="append", default=[], help="Filter by lifecycle status")
+parser.add_argument("--tag", action="append", default=[], help="Filter by tag")
+parser.add_argument("--pillar", action="append", default=[], help="Filter by pillar")
+args = parser.parse_args()
+
+packets = []
+for root, dirs, files in os.walk("content"):
+    if "packet.yaml" in files:
+        py_path = os.path.join(root, "packet.yaml")
+        try:
+            with open(py_path, encoding="utf-8") as f:
+                pdata = yaml.safe_load(f) or {}
+        except Exception:
+            continue
+        
+        tax = pdata.get("taxonomy", {}) or {}
+        metrics = pdata.get("aggregate_metrics", {}) or {}
+
+        status = str(pdata.get("lifecycle_status", "")).strip()
+        tags = tax.get("tags", []) or []
+        pillars = tax.get("pillars", []) or []
+
+        if args.status and status not in args.status:
+            continue
+        if args.tag and not any(t in tags for t in args.tag):
+            continue
+        if args.pillar and not any(p in pillars for p in args.pillar):
+            continue
+
+        impressions = metrics.get("total_impressions", 0)
+        engagements = metrics.get("total_engagements", 0)
+        metrics_str = f"i:{impressions}/e:{engagements}"
+
+        packets.append({
+            "packet_id": str(pdata.get("packet_id", os.path.basename(root))),
+            "status": status,
+            "tags": ", ".join(tags) if tags else "N/A",
+            "pillars": ", ".join(pillars) if pillars else "N/A",
+            "metrics": metrics_str,
+            "path": os.path.relpath(root, ".")
+        })
+
+packets.sort(key=lambda x: x["packet_id"], reverse=True)
+
+print(f"{'Packet ID':<30} {'Status':<12} {'Tags':<25} {'Pillars':<25} {'Metrics':<15} {'Path'}")
+print("-" * 125)
+for p in packets:
+    print(f"{p['packet_id']:<30} {p['status']:<12} {p['tags']:<25} {p['pillars']:<25} {p['metrics']:<15} {p['path']}")
 EOF
-  exit 1
-}
-
-# Parse arguments
-FILTER_STATUS=()
-FILTER_TAGS=()
-FILTER_PILLARS=()
-while [[ $# -gt 0 ]]; do
-  case $1 in
-    --status)
-      FILTER_STATUS+=("$2")
-      shift 2
-      ;;
-    --tag)
-      FILTER_TAGS+=("$2")
-      shift 2
-      ;;
-    --pillar)
-      FILTER_PILLARS+=("$2")
-      shift 2
-      ;;
-    *)
-      usage
-      ;;
-  esac
-done
-
-# Find all packet.yaml files
-declare -a PACKETS
-while IFS= read -r -d '' file; do
-  PACKETS+=("$file")
- done < <(find "$REPO_ROOT/content" -type f -name packet.yaml -print0)
-
-# Header
-printf "%s\t%s\t%s\t%s\t%s\t%s\n" "Packet ID" "Status" "Tags" "Pillars" "Metrics" "Path"
-
-for yaml in "${PACKETS[@]}"; do
-  # Load fields using grep & sed (lightweight parsing)
-  packet_id=$(grep -E '^packet_id:' "$yaml" | cut -d' ' -f2- | tr -d '"')
-  status=$(grep -E '^status:' "$yaml" | cut -d' ' -f2- | tr -d '"')
-  tags=$(grep -E '^tags:' "$yaml" | sed -E 's/^tags:\s*\[?(.*)\]?/\1/' | tr -d '"')
-  pillars=$(grep -E '^pillars:' "$yaml" | sed -E 's/^pillars:\s*\[?(.*)\]?/\1/' | tr -d '"')
-  metrics=$(grep -E '^metrics:' "$yaml" | cut -d' ' -f2- | tr -d '"')
-
-  # Apply filters
-  if [[ ${#FILTER_STATUS[@]} -gt 0 ]]; then
-    match=false
-    for f in "${FILTER_STATUS[@]}"; do
-      [[ "$status" == "$f" ]] && match=true && break
-    done
-    $match || continue
-  fi
-  if [[ ${#FILTER_TAGS[@]} -gt 0 ]]; then
-    match=false
-    for t in "${FILTER_TAGS[@]}"; do
-      [[ "$tags" == *"$t"* ]] && match=true && break
-    done
-    $match || continue
-  fi
-  if [[ ${#FILTER_PILLARS[@]} -gt 0 ]]; then
-    match=false
-    for p in "${FILTER_PILLARS[@]}"; do
-      [[ "$pillars" == *"$p"* ]] && match=true && break
-    done
-    $match || continue
-  fi
-
-  rel_path=$(realpath --relative-to "$REPO_ROOT" "$yaml")
-  printf "%s\t%s\t%s\t%s\t%s\t%s\n" "$packet_id" "$status" "$tags" "$pillars" "$metrics" "$rel_path"
-
-done | column -t -s $'\t'
-
-# End of report

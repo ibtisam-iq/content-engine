@@ -5,59 +5,26 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
 python3 - "$@" <<'EOF'
-import os, sys, json, re
+import os, sys, json
 from datetime import datetime, timezone
-
-def parse_simple_yaml(text):
-    data = {}
-    current_key = None
-    current_obj = None
-    lines = text.splitlines()
-    i = 0
-    while i < len(lines):
-        line = lines[i]
-        stripped = line.strip()
-        if not stripped or stripped.startswith("#"):
-            i += 1
-            continue
-        if line.startswith("  - ") or line.startswith("    - "):
-            val = stripped[2:].strip().strip("\"'")
-            if isinstance(current_obj, list):
-                current_obj.append(val)
-            i += 1
-            continue
-        m_top = re.match(r"^([a-zA-Z0-9_-]+):[ \t]*(.*)$", line)
-        if m_top:
-            key = m_top.group(1)
-            raw_val = m_top.group(2).strip()
-            raw_val = re.sub(r"[ \t]+#.*$", "", raw_val).strip()
-            if not raw_val:
-                if i + 1 < len(lines) and lines[i + 1].strip().startswith("- "):
-                    data[key] = []
-                    current_obj = data[key]
-                else:
-                    data[key] = {}
-            elif raw_val.startswith("[") and raw_val.endswith("]"):
-                inner = raw_val[1:-1].strip()
-                if not inner:
-                    data[key] = []
-                else:
-                    data[key] = [x.strip().strip("\"'") for x in inner.split(",") if x.strip()]
-            else:
-                data[key] = raw_val.strip("\"'")
-            current_key = key
-            i += 1
-            continue
-        i += 1
-    return data
+import yaml
 
 packets = []
 for root, dirs, files in os.walk("content"):
     if "packet.yaml" in files:
         py_path = os.path.join(root, "packet.yaml")
-        with open(py_path, encoding="utf-8") as f:
-            pdata = parse_simple_yaml(f.read())
+        try:
+            with open(py_path, encoding="utf-8") as f:
+                pdata = yaml.safe_load(f) or {}
+        except Exception as e:
+            print(f"WARNING: Could not parse {py_path}: {e}", file=sys.stderr)
+            continue
         
+        taxonomy = pdata.get("taxonomy", {}) or {}
+        lineage = pdata.get("lineage", {}) or {}
+        governance = pdata.get("governance", {}) or {}
+        metrics = pdata.get("aggregate_metrics", {}) or {}
+
         packet_entry = {
             "packet_id": pdata.get("packet_id", os.path.basename(root)),
             "title": pdata.get("title", ""),
@@ -65,8 +32,27 @@ for root, dirs, files in os.walk("content"):
             "topic": pdata.get("topic", ""),
             "lifecycle_status": pdata.get("lifecycle_status", ""),
             "path": root,
-            "pillars": pdata.get("pillars", []) if isinstance(pdata.get("pillars"), list) else [],
-            "channels": pdata.get("channels_manifest", []) if isinstance(pdata.get("channels_manifest"), list) else []
+            "taxonomy": {
+                "pillars": taxonomy.get("pillars", []) or [],
+                "tags": taxonomy.get("tags", []) or [],
+                "campaign": taxonomy.get("campaign", "") or "",
+                "series": taxonomy.get("series", "") or ""
+            },
+            "lineage": {
+                "repurposed_from": lineage.get("repurposed_from", "") or "",
+                "related_project": lineage.get("related_project", "") or ""
+            },
+            "governance": {
+                "created_at": governance.get("created_at", "") or "",
+                "updated_at": governance.get("updated_at", "") or "",
+                "author": governance.get("author", "content-engine") or "content-engine"
+            },
+            "aggregate_metrics": {
+                "total_impressions": metrics.get("total_impressions", 0) or 0,
+                "total_engagements": metrics.get("total_engagements", 0) or 0,
+                "last_updated": metrics.get("last_updated", "") or ""
+            },
+            "channels": pdata.get("channels_manifest", []) or []
         }
         packets.append(packet_entry)
 
