@@ -3,7 +3,6 @@
 ## Submitted Issue Context
 
 This is first content.
-
 ---
 
 # Strategic Context: First Content
