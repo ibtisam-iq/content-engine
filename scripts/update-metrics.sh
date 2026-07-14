@@ -45,7 +45,7 @@ if not args.rollup_only and args.channel:
   last_measured_at: "{now_iso}"'''
     
     updated_content = re.sub(
-        r"performance_metrics:\s*\n(\s+.*:\s*.*(\n|$))+",
+        r"performance_metrics:\s*\n(?:[ \t]+[a-zA-Z0-9_-]+:.*(?:\n|$))+",
         new_metrics_block + "\n",
         content
     )
@@ -81,7 +81,7 @@ if os.path.exists(py_path):
   last_updated: "{now_iso}"'''
   
     updated_py = re.sub(
-        r"aggregate_metrics:\s*\n(\s+.*:\s*.*(\n|$))+",
+        r"aggregate_metrics:\s*\n(?:[ \t]+[a-zA-Z0-9_-]+:.*(?:\n|$))+",
         new_agg + "\n",
         py_content
     )
