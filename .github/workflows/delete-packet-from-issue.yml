@@ -70,6 +70,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A content/ registry/catalog.json
           git commit -m "delete: remove packet via Issue #${{ github.event.issue.number }}" || echo "Nothing to commit"
+          git pull --rebase origin main || true
           git push origin main
 
       - name: Comment and Close Issue
