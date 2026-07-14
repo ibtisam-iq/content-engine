@@ -17,6 +17,7 @@ content_spec:
   hook: "Issue subject line delivering high-signal engineering digest."
   cta_type: "newsletter-signup"
   cta_text: "Subscribe for weekly technical deep dives."
+  media_paths: []
 
 performance_metrics:
   impressions: 0
@@ -24,6 +25,8 @@ performance_metrics:
   likes: 0
   comments: 0
   shares: 0
+  clicks: 0
+  conversions: 0
   last_measured_at: ""
 ---
 

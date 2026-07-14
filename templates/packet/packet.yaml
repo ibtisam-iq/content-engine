@@ -28,9 +28,13 @@ governance:
   related_project: ""
 
 channels_manifest:
-  - "channels/linkedin-post.md"
+  - "channels/linkedin.md"
+  - "channels/x.md"
+  - "channels/blog.md"
 
 aggregate_metrics:
   total_impressions: 0
   total_engagements: 0
+  total_clicks: 0
+  total_conversions: 0
   last_updated: ""

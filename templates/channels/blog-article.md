@@ -17,6 +17,7 @@ content_spec:
   hook: "Comprehensive architectural deep dive on the topic."
   cta_type: "link"
   cta_text: "Explore the reference implementation on GitHub."
+  media_paths: []
 
 performance_metrics:
   impressions: 0
@@ -24,6 +25,8 @@ performance_metrics:
   likes: 0
   comments: 0
   shares: 0
+  clicks: 0
+  conversions: 0
   last_measured_at: ""
 ---
 

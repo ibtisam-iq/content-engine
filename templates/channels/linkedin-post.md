@@ -16,7 +16,8 @@ distribution:
 content_spec:
   hook: "Enter primary hook statement here."
   cta_type: "question"
-  cta_text: "What has been your experience with this architectural pattern?"
+  cta_text: "Share engineering experiences with this architectural pattern below."
+  media_paths: []
 
 performance_metrics:
   impressions: 0
@@ -24,6 +25,8 @@ performance_metrics:
   likes: 0
   comments: 0
   shares: 0
+  clicks: 0
+  conversions: 0
   last_measured_at: ""
 ---
 

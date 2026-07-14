@@ -21,7 +21,7 @@ VALID_PLATFORMS = {"linkedin", "x", "facebook", "blog", "newsletter"}
 PLATFORM_TEMPLATE_MAP = {
     "linkedin": "linkedin-post.md",
     "x": "x-post.md",
-    "facebook": "linkedin-post.md",
+    "facebook": "facebook-post.md",
     "blog": "blog-article.md",
     "newsletter": "newsletter-issue.md"
 }
@@ -266,6 +266,7 @@ content_spec:
   hook: "{title_str} adaptation for {plat}."
   cta_type: "none"
   cta_text: ""
+  media_paths: []
 
 performance_metrics:
   impressions: 0
@@ -273,6 +274,8 @@ performance_metrics:
   likes: 0
   comments: 0
   shares: 0
+  clicks: 0
+  conversions: 0
   last_measured_at: ""
 ---
 
@@ -475,6 +478,7 @@ content_spec:
   hook: "{title_str} adaptation for {plat}."
   cta_type: "none"
   cta_text: ""
+  media_paths: []
 
 performance_metrics:
   impressions: 0
@@ -482,6 +486,8 @@ performance_metrics:
   likes: 0
   comments: 0
   shares: 0
+  clicks: 0
+  conversions: 0
   last_measured_at: ""
 ---
 

@@ -16,7 +16,8 @@ distribution:
 content_spec:
   hook: "Slide 1 cover title delivering high-signal architectural takeaway."
   cta_type: "question"
-  cta_text: "Which of these design patterns do you use in production?"
+  cta_text: "Share production experiences with these design patterns in the comments."
+  media_paths: []
 
 performance_metrics:
   impressions: 0
@@ -24,6 +25,8 @@ performance_metrics:
   likes: 0
   comments: 0
   shares: 0
+  clicks: 0
+  conversions: 0
   last_measured_at: ""
 ---
 
