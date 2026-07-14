@@ -28,10 +28,11 @@ Detailed strategic context and messaging thesis live in [`context.md`](context.m
 
 | Channel File | Platform | Output Format | Initial Status |
 | :--- | :--- | :--- | :--- |
-| [`channels/linkedin.md`](channels/linkedin.md) | `linkedin` | `post` | `draft` |
-| [`channels/x.md`](channels/x.md) | `x` | `post` | `draft` |
-| [`channels/blog.md`](channels/blog.md) | `blog` | `article` | `draft` |
-| [`channels/newsletter.md`](channels/newsletter.md) | `newsletter` | `newsletter` | `draft` |
+| `channels/linkedin.md` | `linkedin` | `post` | `draft` |
+| `channels/x.md` | `x` | `post` | `draft` |
+| `channels/facebook.md` | `facebook` | `post` | `draft` |
+| `channels/blog.md` | `blog` | `article` | `draft` |
+| `channels/newsletter.md` | `newsletter` | `newsletter` | `draft` |
 
 ---
 
