@@ -3,6 +3,7 @@
   "$id": "https://content-engine.dev/schemas/packet.schema.json",
   "title": "Packet Manifest Schema",
   "description": "Schema validation for packet.yaml, the single source of truth for a content packet.",
+  "$comment": "Defines the invariant contract enforced by scripts/validate-packet.sh for all packet.yaml files.",
   "type": "object",
   "required": [
     "packet_id",

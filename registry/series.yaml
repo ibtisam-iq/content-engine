@@ -1,4 +1,5 @@
-# Content Series and Active Campaigns Registry
+# Registry: series.yaml
+# Role: Single source of truth for active content series and campaigns referenced by packet taxonomy fields.
 
 series:
   - id: "architecture-deep-dives"

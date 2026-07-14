@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# Script: sync-projects.sh
+# Role: Maps packet metadata and 9-state lifecycle enum to GitHub Projects fields.
+# Inputs: --packet or --all. Outputs: JSON payload representation of GitHub Project item properties.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

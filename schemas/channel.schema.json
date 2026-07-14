@@ -3,6 +3,7 @@
   "$id": "https://content-engine.dev/schemas/channel.schema.json",
   "title": "Channel Front Matter Schema",
   "description": "Schema validation for YAML front matter in channel markdown files under channels/.",
+  "$comment": "Defines the invariant contract enforced by scripts/validate-packet.sh for channel front matter across all files in channels/.",
   "type": "object",
   "required": [
     "channel_id",

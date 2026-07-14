@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# Script: suggest-reuse.sh
+# Role: Computes shared-signal scores across content packets to recommend repurposing and cross-linking pairs.
+# Inputs: --min-score, --packet filters. Outputs: Candidate packet pairs in text or CSV format.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

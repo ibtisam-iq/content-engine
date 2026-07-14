@@ -1,3 +1,6 @@
+# Workflow: update-platform-status
+# Role: Updates channel publication status, published URLs, and telemetry metrics via workflow_dispatch.
+# Executes scripts/update-metrics.sh and commits changes back to the target branch.
 name: update-platform-status
 
 on:

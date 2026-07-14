@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# Script: create-packet.sh
+# Role: Scaffolds new content packets or synchronizes existing packet files when metadata or channel targets change.
+# Inputs: CLI arguments or issue body fields (--update, --from-issue). Outputs: content/YYYY/MM/<id>/ files and catalog index.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

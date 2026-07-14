@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# Script: generate-catalog.sh
+# Role: Scans all packet.yaml files under content/ to build the master registry/catalog.json index.
+# Inputs: content/**/packet.yaml. Outputs: registry/catalog.json. Uses PyYAML when available or fallback standalone parser.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# Script: bootstrap-content-engine.sh
+# Role: Initializes base directory hierarchy and copies core configuration templates into target workspace root.
+# Inputs: Target directory root path (defaults to current directory). Outputs: Scaffolds directories and config files.
 set -euo pipefail
 
 ROOT="${1:-.}"

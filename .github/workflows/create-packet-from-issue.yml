@@ -1,3 +1,6 @@
+# Workflow: create-packet-from-issue
+# Role: Scaffolds or synchronizes content packets when issues labeled new-packet are opened or edited.
+# Executes scripts/create-packet.sh --update and commits resulting folder mutations and catalog index updates.
 name: create-packet-from-issue
 
 on:
@@ -10,6 +13,7 @@ on:
 
 jobs:
   create-packet:
+    # Execute only when the issue carries the new-packet label
     if: |
       github.event.label.name == 'new-packet' ||
       contains(github.event.issue.labels.*.name, 'new-packet')

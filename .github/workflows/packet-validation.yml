@@ -1,3 +1,6 @@
+# Workflow: packet-validation
+# Role: Enforces schema compliance, manifest referential integrity, and zero em dashes across content packets.
+# Triggers on push or pull requests affecting content/, schemas/, registry/, or scripts/.
 name: packet-validation
 
 on:

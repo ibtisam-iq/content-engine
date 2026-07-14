@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "generated_at": "2026-07-14T00:07:19Z",
+  "generated_at": "2026-07-14T00:17:12Z",
   "total_packets": 3,
   "packets": [
     {
@@ -17,11 +17,11 @@
         "tags": [
           "test-tag"
         ],
-        "campaign": "[]",
-        "series": "[]"
+        "campaign": "",
+        "series": ""
       },
       "lineage": {
-        "repurposed_from": "[]",
+        "repurposed_from": "",
         "related_project": "ISSUE-1"
       },
       "governance": {
@@ -32,9 +32,13 @@
       "aggregate_metrics": {
         "total_impressions": 0,
         "total_engagements": 0,
-        "last_updated": "[]"
+        "last_updated": ""
       },
-      "channels": []
+      "channels": [
+        "channels/blog.md",
+        "channels/linkedin.md",
+        "channels/x.md"
+      ]
     },
     {
       "packet_id": "2026-07-13-2nd-content",
@@ -52,11 +56,11 @@
           "2nd-tag",
           "2nd-tags"
         ],
-        "campaign": "[]",
-        "series": "[]"
+        "campaign": "",
+        "series": ""
       },
       "lineage": {
-        "repurposed_from": "[]",
+        "repurposed_from": "",
         "related_project": "ISSUE-2"
       },
       "governance": {
@@ -67,9 +71,15 @@
       "aggregate_metrics": {
         "total_impressions": 0,
         "total_engagements": 0,
-        "last_updated": "[]"
+        "last_updated": ""
       },
-      "channels": []
+      "channels": [
+        "channels/blog.md",
+        "channels/facebook.md",
+        "channels/linkedin.md",
+        "channels/newsletter.md",
+        "channels/x.md"
+      ]
     },
     {
       "packet_id": "2026-07-12-sample-packet",
@@ -104,7 +114,12 @@
         "total_engagements": 85,
         "last_updated": "2026-07-13T14:02:27Z"
       },
-      "channels": []
+      "channels": [
+        "channels/linkedin.md",
+        "channels/x.md",
+        "channels/facebook.md",
+        "channels/blog.md"
+      ]
     }
   ]
 }
