@@ -24,7 +24,15 @@ When creating a follow-up packet, retrospective, or specialized spin-off derived
 3. In the parent packet's `packet.yaml`, add the new child packet ID to `lineage.derivatives`.
 4. Commit both manifest updates together so parent-child relationships remain bi-directionally linked.
 
-## 4. Lineage Integrity Invariants
+## 4. Automated Repurposing Discovery (`suggest-reuse.sh`)
 
-- Never copy-paste copy across packets without logging the parent packet ID in `repurposed_from`.
+To discover high-signal repurposing candidates across active and archived packets, operators execute `./scripts/suggest-reuse.sh`:
+```bash
+./scripts/suggest-reuse.sh --packet content/YYYY/MM/YYYY-MM-DD-topic-slug
+```
+The script scores shared taxonomy tags and content pillars across the central catalog (`registry/catalog.json`) to recommend related packets suitable for cross-linking, series continuation, or multi-channel expansion.
+
+## 5. Lineage Integrity Invariants
+
+- Never copy copy across packets without logging the parent packet ID in `repurposed_from`.
 - Always preserve the canonical thesis while adapting angle, format, and depth for the derivative audience.

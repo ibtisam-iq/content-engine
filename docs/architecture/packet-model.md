@@ -43,7 +43,9 @@ content/YYYY/MM/YYYY-MM-DD-topic-slug/
 └── channels/                 # Subdirectory isolating platform adaptations
     ├── linkedin.md           # Platform adaptation
     ├── x.md                  # Platform adaptation
-    └── blog.md               # Platform adaptation
+    ├── facebook.md           # Platform adaptation
+    ├── blog.md               # Platform adaptation
+    └── newsletter.md         # Platform adaptation
 ```
 
 ### 3.1 Core Manifest and Canonical Files

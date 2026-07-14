@@ -55,8 +55,8 @@ Content creation and publishing follow a deterministic 7-stage operational lifec
 ### Stage 6: Post-Publish Analytics (`published`)
 - **Objective**: Close the feedback loop with quantitative telemetry.
 - **Actions**:
-  1. At scheduled review intervals (7 days, 30 days post-publish), record performance snapshots in channel front matter (`performance_metrics`).
-  2. Roll up totals into `aggregate_metrics` within `packet.yaml`.
+  1. At scheduled review intervals (7 days, 30 days post-publish), execute `./scripts/update-metrics.sh` or submit an issue using `.github/ISSUE_TEMPLATE/record-channel-metrics.yml`.
+  2. The script or `.github/workflows/record-metrics-from-issue.yml` workflow mutates channel front matter (`performance_metrics`) and automatically recalculates `aggregate_metrics` (`total_impressions`, `total_engagements`, `total_clicks`, `total_conversions`) inside `packet.yaml`.
 
 ### Stage 7: Repurposing & Lifecycle Archiving (`evergreen` / `archived`)
 - **Objective**: Maintain long-term repository hygiene and leverage proven evergreen assets.

@@ -15,7 +15,7 @@ Every packet directory must contain a `packet.yaml` file at its root.
 
 ```yaml
 packet_id: "2026-07-12-sample-packet"
-title: "Sample Content Event Title"
+title: "Sample Technical Packet for Content Engine"
 date: "2026-07-12"
 topic: "sample-packet"
 lifecycle_status: "briefing"
@@ -38,7 +38,9 @@ lineage:
 governance:
   created_at: "2026-07-12T12:00:00Z"
   updated_at: "2026-07-12T14:30:00Z"
-  owner: "creator-handle"
+  author: "content-engine"
+  owner: "content-engine"
+  reviewers: []
   related_project: "ISSUE-1042"
 
 channels_manifest:
@@ -49,6 +51,8 @@ channels_manifest:
 aggregate_metrics:
   total_impressions: 0
   total_engagements: 0
+  total_clicks: 0
+  total_conversions: 0
   last_updated: ""
 ```
 
@@ -63,9 +67,9 @@ aggregate_metrics:
 | `lifecycle_status` | Enum | Yes | Packet state: `idea`, `briefing`, `drafting`, `review`, `ready`, `distributing`, `published`, `evergreen`, `archived`. |
 | `taxonomy` | Object | Yes | Discovery groupings (`pillars`, `tags`, `campaign`, `series`). |
 | `lineage` | Object | Yes | Traceability fields (`canonical_source`, `repurposed_from`, `derivatives`). |
-| `governance` | Object | Yes | Audit fields (`created_at`, `updated_at`, `owner`, `related_project`). |
+| `governance` | Object | Yes | Audit fields (`created_at`, `updated_at`, `author`, `owner`, `reviewers`, `related_project`). |
 | `channels_manifest` | Array | Yes | Relative paths to active channel files inside `channels/`. |
-| `aggregate_metrics` | Object | No | Rollup performance metrics across all published channels. |
+| `aggregate_metrics` | Object | No | Rollup performance metrics across all published channels (`total_impressions`, `total_engagements`, `total_clicks`, `total_conversions`, `last_updated`). |
 
 ## 3. Channel Front Matter Specification (`channels/*.md`)
 
@@ -92,7 +96,8 @@ distribution:
 content_spec:
   hook: "Most content systems fail because architecture is treated as an afterthought."
   cta_type: "question"
-  cta_text: "How do you structure your technical portfolio across platforms?"
+  cta_text: "Share engineering experiences with multi-channel content architectures below."
+  media_paths: []
 
 performance_metrics:
   impressions: 0
@@ -100,6 +105,8 @@ performance_metrics:
   likes: 0
   comments: 0
   shares: 0
+  clicks: 0
+  conversions: 0
   last_measured_at: ""
 ---
 ```
@@ -115,5 +122,5 @@ performance_metrics:
 | `channel_status` | Enum | Yes | Channel state: `draft`, `review`, `ready`, `scheduled`, `published`, `archived`. |
 | `dates` | Object | Yes | Scheduling and publication timestamps (`planned_date`, `published_date`). |
 | `distribution` | Object | Yes | Published live URL and canonical syndication URL. |
-| `content_spec` | Object | Yes | Primary hook headline, CTA type (`question`, `link`, `newsletter-signup`, `none`), and CTA text. |
-| `performance_metrics` | Object | Yes | Telemetry snapshot (`impressions`, `engagements`, `likes`, `comments`, `shares`, `last_measured_at`). |
+| `content_spec` | Object | Yes | Primary hook headline, CTA type (`question`, `link`, `newsletter-signup`, `none`), CTA text, and optional `media_paths` array. |
+| `performance_metrics` | Object | Yes | Telemetry snapshot (`impressions`, `engagements`, `likes`, `comments`, `shares`, `clicks`, `conversions`, `last_measured_at`). |

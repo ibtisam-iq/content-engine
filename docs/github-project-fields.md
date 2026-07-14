@@ -1,29 +1,44 @@
-# GitHub Project Fields
+# GitHub Project Integration and Custom Fields
 
-Create a GitHub Project for this repository and add the following custom fields to track packets and platform versions.
+## 1. Overview
 
-| Field | Type | Notes |
-|-------|------|-------|
-| Title | Built in | Post or packet title (from `packet.yaml.title` or platform file `title`). |
-| Status | Single select | Packet or platform status. Use values: Idea, Draft, Review, Ready, Scheduled, Published, Archived. |
-| Planned date | Date | Target publish date (from platform file `planned_date`). |
-| Published date | Date | Actual publish date (from platform file `published_date`). |
-| Platform | Single select | Platform name (from platform file `platform`: LinkedIn, X, Facebook, Blog). |
-| Packet | Text | Packet folder path (relative to repo root), e.g., `content/2026/07/2026-07-12-sample-packet`. Matches `packet.yaml.packet_id` with path prefix. |
-| File path | Text | Primary file path for this item (e.g., `content/2026/07/2026-07-12-sample-packet/linkedin.md`). |
-| Published URL | Text | Final URL after publishing (from platform file `published_url`). |
-| Tags | Text | Comma‑separated tags (from `packet.yaml.tags`). |
-| Pillars | Text | Comma‑separated pillars (from `packet.yaml.pillars`). |
-| Campaign | Text | Campaign identifier (from `packet.yaml.campaign`). |
-| Series | Text | Series identifier (from `packet.yaml.series`). |
-| Notes | Text | Free‑form notes (from `packet.yaml.notes` or platform file `notes`). |
+This repository integrates with GitHub Projects to provide visual Kanban boards, table filters, and publication calendars. Because git commits remain the single source of truth, custom fields on GitHub Project items mirror the metadata stored in `packet.yaml` and channel front matter (`channels/*.md`).
 
-**Usage**
+## 2. Custom Field Specification
 
-- Map packet‑level fields (Title, Status, Tags, Pillars, Campaign, Series, Notes) to `packet.yaml`.
-- Map platform‑specific fields (Status, Planned date, Published date, Platform, Published URL) to the corresponding platform file’s front matter.
-- Use Board view to visualize workflow, Table view for bulk edits, and Calendar view for scheduled publications.
+Create the following custom fields within the GitHub Project view:
 
-**Keeping Fields in Sync**
+| Field Name | Type | Target Scope | Description |
+| :--- | :--- | :--- | :--- |
+| **Title** | Built-in | Packet & Channel | Packet title (`packet.yaml`) or channel headline. |
+| **Status** | Single-select | Packet & Channel | Mirrors `lifecycle_status` on packet cards and `channel_status` on channel cards. |
+| **Planned date** | Date | Channel | Target publication date (`dates.planned_date`). |
+| **Published date** | Date | Channel | Actual publication timestamp (`dates.published_date`). |
+| **Platform** | Single-select | Channel | Target platform enum (`linkedin`, `x`, `facebook`, `blog`, `newsletter`). |
+| **Packet** | Text | Packet & Channel | Relative packet directory path (e.g., `content/YYYY/MM/YYYY-MM-DD-topic-slug`). |
+| **File path** | Text | Channel | Relative channel markdown path (e.g., `content/YYYY/MM/.../channels/linkedin.md`). |
+| **Published URL** | Text | Channel | Canonical live network link (`distribution.published_url`). |
+| **Tags** | Text | Packet | Comma-separated taxonomy tags (`taxonomy.tags`). |
+| **Pillars** | Text | Packet | Comma-separated content pillars (`taxonomy.pillars`). |
+| **Campaign** | Text | Packet | Campaign identifier (`taxonomy.campaign`). |
+| **Series** | Text | Packet | Series identifier (`taxonomy.series`). |
+| **Notes** | Text | Packet & Channel | Editorial notes or tracking identifiers. |
 
-Run `./scripts/sync-projects.sh` periodically or via a GitHub Action to bidirectionally sync GitHub Project custom fields with `packet.yaml` and platform front matter.
+## 3. Status Enums by Scope
+
+### 3.1 Packet Lifecycle Statuses (`packet.yaml`)
+- `idea`, `briefing`, `drafting`, `review`, `ready`, `distributing`, `published`, `evergreen`, `archived`
+
+### 3.2 Channel Lifecycle Statuses (`channels/*.md`)
+- `draft`, `review`, `ready`, `scheduled`, `published`, `archived`
+
+## 4. Automated Bidirectional Synchronization
+
+To prevent drift between GitHub Projects and repository files, the engine provides synchronization tooling:
+
+- **CLI Synchronization**:
+  ```bash
+  ./scripts/sync-projects.sh
+  ```
+- **Workflow Action**:
+  The manual workflow `.github/workflows/sync-project-to-files.yml` can be executed via `workflow_dispatch` to reconcile project cards against repository files.

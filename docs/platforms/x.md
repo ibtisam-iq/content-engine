@@ -2,16 +2,31 @@
 
 ## 1. Target Audience
 
-Mixed technical audience: software engineers, DevOps practitioners, indie developers, and technical founders.
+Software engineers, open-source maintainers, system architects, and technical developers seeking fast, high-signal architectural takeaways.
 
-## 2. Structural Standards
+## 2. Supported Formats and Template Mapping
 
-- **Single Post**: Sharp, compressed observation or architectural take (under 280 characters).
-- **Thread**: Multi-post breakdown of a complex engineering topic. Each post in the thread must express one discrete point or code takeaway.
-- **Hook**: First post must state the technical problem or counter-intuitive finding immediately.
+- **Output Format**: `post` or `thread`
+- **Scaffolding Template**: `templates/channels/x-post.md`
+- **Channel Filename**: `channels/x.md`
 
-## 3. Tone and Style Constraints
+## 3. Structural Standards
 
-- Compressed, direct, sharp, and punchy.
-- Avoid unnecessary fluff or hashtag stuffing (maximum 1-2 relevant hashtags if necessary).
-- Never use em dash characters.
+- **Hook**: First sentence must deliver a sharp, compressed engineering take or contrarian finding.
+- **Formatting**: Direct sentences, clear line breaks, and punchy technical phrasing.
+- **Length**: Single post under 280 characters, or a numbered multi-post thread where each post represents an atomic architectural lesson.
+- **Call to Action (CTA)**: Include a direct link to canonical repository assets or long-form engineering articles.
+
+## 4. Metadata and Schema Compliance
+
+Every X channel file must conform strictly to `schemas/channel.schema.json`:
+- `platform`: `"x"`
+- `format`: `"post"` or `"thread"`
+- `channel_status`: Valid status enum (`draft`, `review`, `ready`, `scheduled`, `published`, `archived`)
+- `performance_metrics`: Tracks `impressions`, `engagements`, `likes`, `comments`, `shares`, `clicks`, `conversions`, and `last_measured_at`.
+
+## 5. Tone and Style Constraints
+
+- High-signal, sharp, technical, and concise.
+- Never use em dash characters anywhere.
+- Avoid second-person language; phrase takes as direct architectural observations.
