@@ -97,6 +97,11 @@
         "cta_text": {
           "type": "string",
           "description": "Text of the call to action."
+        },
+        "media_paths": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Relative paths to visual media files under assets/exports/."
         }
       }
     },
@@ -117,6 +122,8 @@
         "likes": { "type": "integer", "minimum": 0 },
         "comments": { "type": "integer", "minimum": 0 },
         "shares": { "type": "integer", "minimum": 0 },
+        "clicks": { "type": "integer", "minimum": 0 },
+        "conversions": { "type": "integer", "minimum": 0 },
         "last_measured_at": { "type": "string" }
       }
     }
