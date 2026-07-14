@@ -129,8 +129,13 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add content/ registry/catalog.json
           git commit -m "sync: scaffold or update packet from Issue #${{ github.event.issue.number }}" || echo "Nothing to commit"
-          git pull --rebase origin main || true
-          git push origin main
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin main || true
+            if git push origin main; then
+              break
+            fi
+            sleep 2
+          done
 
       - name: Comment on Issue
         uses: actions/github-script@v7
