@@ -2,17 +2,31 @@
 
 ## 1. Target Audience
 
-Subscribers and regular readers expecting curated, high-signal engineering deep dives, architecture roundups, and practical lessons.
+Subscribed engineering leaders, platform architects, and software developers reading weekly or bi-weekly technical digests via email.
 
-## 2. Structural Standards
+## 2. Supported Formats and Template Mapping
 
-- **Subject Line**: Compelling technical hook stating exactly what the reader will learn.
-- **Executive Summary**: A concise 3-bullet summary at the top of the issue.
-- **Deep Dive**: Main technical essay or structured case study.
-- **CTA**: Direct call to action inviting subscriber feedback or pointing to a repository.
+- **Output Format**: `newsletter`
+- **Scaffolding Template**: `templates/channels/newsletter-issue.md`
+- **Channel Filename**: `channels/newsletter.md`
 
-## 3. Tone and Style Constraints
+## 3. Structural Standards
 
-- Engaging, authoritative, educational, and structured.
-- Keep formatting compatible with email rendering engines (clean headings, standard bullet lists).
-- Never use em dash characters.
+- **Subject Line**: High-signal engineering takeaway or architectural digest title.
+- **Executive Summary**: 3-bullet executive overview highlighting core findings, trade-offs, and actionable architecture recommendations.
+- **Main Technical Essay**: Structured breakdown synthesizing core briefing materials into an engaging editorial digest.
+- **Call to Action**: Invite technical feedback or point readers to the underlying code repository.
+
+## 4. Metadata and Schema Compliance
+
+Every Newsletter channel file must conform strictly to `schemas/channel.schema.json`:
+- `platform`: `"newsletter"`
+- `format`: `"newsletter"`
+- `channel_status`: Valid status enum (`draft`, `review`, `ready`, `scheduled`, `published`, `archived`)
+- `performance_metrics`: Tracks `impressions`, `engagements`, `likes`, `comments`, `shares`, `clicks`, `conversions`, and `last_measured_at`.
+
+## 5. Tone and Style Constraints
+
+- Curated, structured, high-signal, and technical.
+- Never use em dash characters anywhere.
+- Avoid second-person phrasing; state architectural insights directly.
