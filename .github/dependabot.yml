@@ -1,0 +1,17 @@
+# GitHub Dependabot Configuration (.github/dependabot.yml)
+# Automatically checks for updates to GitHub Actions workflows on a weekly schedule.
+
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    open-pull-requests-limit: 5
