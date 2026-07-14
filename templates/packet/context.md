@@ -5,7 +5,11 @@
 - **Event Description**: Describe the technical milestone, incident, project release, or architecture decision.
 - **Why It Matters**: Detail the engineering impact, trade-offs resolved, or business outcome.
 
-## 2. Target Audience Segments
+## 2. Submitted Issue Context
+
+- **Issue Intake Notes**: Intake description and background notes provided when scaffolded via GitHub issues.
+
+## 3. Target Audience Segments
 
 - **Primary Audience**: Define primary technical personas (e.g., staff engineers, platform architects).
 - **Secondary Audience**: Define secondary personas (e.g., engineering managers, technical founders).

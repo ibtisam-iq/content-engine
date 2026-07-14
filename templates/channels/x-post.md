@@ -17,6 +17,7 @@ content_spec:
   hook: "Enter compressed technical take or thread opener."
   cta_type: "none"
   cta_text: ""
+  media_paths: []
 
 performance_metrics:
   impressions: 0
@@ -24,6 +25,8 @@ performance_metrics:
   likes: 0
   comments: 0
   shares: 0
+  clicks: 0
+  conversions: 0
   last_measured_at: ""
 ---
 
