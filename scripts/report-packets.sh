@@ -5,8 +5,45 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
 python3 - "$@" <<'EOF'
-import os, sys, argparse
-import yaml
+import os, sys, argparse, re
+
+try:
+    import yaml
+    has_yaml = True
+except ImportError:
+    has_yaml = False
+
+def fallback_parse_packet_yaml(text):
+    data = {}
+    current_dict = data
+    current_key = None
+    for line in text.splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        indent = len(line) - len(line.lstrip(" "))
+        m_kv = re.match(r"^([a-zA-Z0-9_-]+):\s*(.*)$", stripped)
+        if m_kv:
+            key, val = m_kv.group(1), m_kv.group(2).strip().strip('"\'')
+            if indent == 0:
+                if not val:
+                    data[key] = {}
+                    current_dict = data[key]
+                else:
+                    data[key] = val
+            else:
+                if not val:
+                    current_dict[key] = []
+                else:
+                    current_dict[key] = val
+            current_key = key
+        elif stripped.startswith("- "):
+            item = stripped[2:].strip().strip('"\'')
+            if current_key and isinstance(current_dict.get(current_key), list):
+                current_dict[current_key].append(item)
+            elif current_key and current_key not in current_dict:
+                current_dict[current_key] = [item]
+    return data
 
 parser = argparse.ArgumentParser(description="Generate a summary report of content packets.")
 parser.add_argument("--status", action="append", default=[], help="Filter by lifecycle status")
@@ -20,16 +57,17 @@ for root, dirs, files in os.walk("content"):
         py_path = os.path.join(root, "packet.yaml")
         try:
             with open(py_path, encoding="utf-8") as f:
-                pdata = yaml.safe_load(f) or {}
+                c_str = f.read()
+            pdata = (yaml.safe_load(c_str) or {}) if has_yaml else fallback_parse_packet_yaml(c_str)
         except Exception:
             continue
         
-        tax = pdata.get("taxonomy", {}) or {}
-        metrics = pdata.get("aggregate_metrics", {}) or {}
+        tax = pdata.get("taxonomy", {}) if isinstance(pdata.get("taxonomy"), dict) else {}
+        metrics = pdata.get("aggregate_metrics", {}) if isinstance(pdata.get("aggregate_metrics"), dict) else {}
 
         status = str(pdata.get("lifecycle_status", "")).strip()
-        tags = tax.get("tags", []) or []
-        pillars = tax.get("pillars", []) or []
+        tags = tax.get("tags", []) if isinstance(tax.get("tags"), list) else []
+        pillars = tax.get("pillars", []) if isinstance(tax.get("pillars"), list) else []
 
         if args.status and status not in args.status:
             continue
