@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# Script: validate-packet.sh
+# Role: Validates packet.yaml and channel front matter against schemas, lifecycle enums, manifest integrity, and typography rules.
+# Inputs: --packet <path> or --all. Outputs: Exits non-zero on invariant violation; prints validation summary.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

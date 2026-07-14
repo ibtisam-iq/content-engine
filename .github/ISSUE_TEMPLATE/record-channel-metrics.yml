@@ -1,3 +1,5 @@
+# Issue Form: Record Channel Performance Metrics
+# Attaches the record-metrics label to trigger automated telemetry recording and packet metric rollup.
 name: Record Channel Performance Metrics
 description: Record post-publish telemetry metrics (impressions, engagements, likes) for a channel adaptation
 title: "[Metrics]: <packet-id> (<channel>)"

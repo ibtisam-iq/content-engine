@@ -1,3 +1,6 @@
+# Workflow: sync-project-to-files
+# Role: Bidirectionally synchronizes packet metadata with GitHub Projects representation.
+# Executed manually via workflow_dispatch; runs scripts/sync-projects.sh.
 name: sync-project-to-files
 
 on:

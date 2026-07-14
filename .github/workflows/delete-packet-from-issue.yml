@@ -1,3 +1,6 @@
+# Workflow: delete-packet-from-issue
+# Role: Permanently deletes content packet directories when issues labeled delete-packet are opened.
+# Executes scripts/delete-packet.sh, prunes empty month/year parent folders, and re-indexes catalog.json.
 name: delete-packet-from-issue
 
 on:
@@ -8,6 +11,7 @@ on:
 
 jobs:
   delete-packet:
+    # Execute only when the issue carries the delete-packet label
     if: |
       github.event.label.name == 'delete-packet' ||
       contains(github.event.issue.labels.*.name, 'delete-packet')

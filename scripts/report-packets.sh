@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# Script: report-packets.sh
+# Role: Scans active packets under content/ and renders a formatted ASCII summary table of status, taxonomy, and metrics.
+# Inputs: --status, --tag, --pillar filters. Outputs: Formatted summary report to stdout.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

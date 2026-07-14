@@ -1,3 +1,6 @@
+# Workflow: record-metrics-from-issue
+# Role: Records channel telemetry when issues labeled record-metrics are opened.
+# Executes scripts/update-metrics.sh to update front matter and roll up packet aggregate_metrics.
 name: record-metrics-from-issue
 
 on:
@@ -8,6 +11,7 @@ on:
 
 jobs:
   record-metrics:
+    # Execute only when the issue carries the record-metrics label
     if: |
       github.event.label.name == 'record-metrics' ||
       contains(github.event.issue.labels.*.name, 'record-metrics')

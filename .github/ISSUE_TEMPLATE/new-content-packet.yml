@@ -1,3 +1,5 @@
+# Issue Form: New Content Packet
+# Attaches the new-packet label to trigger automated scaffolding or synchronization via create-packet-from-issue workflow.
 name: New Content Packet
 description: Create a new content packet for an engineering event or architecture milestone
 title: "[PACKET]: "

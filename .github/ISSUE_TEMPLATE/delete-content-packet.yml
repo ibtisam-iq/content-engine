@@ -1,3 +1,5 @@
+# Issue Form: Delete Content Packet
+# Attaches the delete-packet label to trigger automated packet directory cleanup via delete-packet-from-issue workflow.
 name: Delete Content Packet
 description: Delete an existing content packet directory and remove it from the catalog
 title: "[Delete]: <packet-id-or-path>"

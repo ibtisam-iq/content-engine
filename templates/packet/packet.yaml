@@ -1,4 +1,5 @@
-# packet.yaml - Single source of truth manifest for a content packet
+# Template: packet.yaml
+# Scaffolding template populated automatically by create-packet.sh; fields must conform to schemas/packet.schema.json.
 packet_id: "2026-01-01-template-topic"
 title: "Template Packet Title"
 date: "2026-01-01"

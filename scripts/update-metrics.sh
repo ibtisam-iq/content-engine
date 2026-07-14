@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# Script: update-metrics.sh
+# Role: Updates channel front matter performance metrics and recalculates aggregate_metrics in packet.yaml.
+# Inputs: --packet, --channel, telemetry counts. Outputs: Modifies channel markdown front matter and packet.yaml.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

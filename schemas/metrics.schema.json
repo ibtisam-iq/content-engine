@@ -3,6 +3,7 @@
   "$id": "https://content-engine.dev/schemas/metrics.schema.json",
   "title": "Performance Metrics Snapshot Schema",
   "description": "Standardized schema for post-publish quantitative performance metrics.",
+  "$comment": "Defines the quantitative telemetry structure mutated by scripts/update-metrics.sh.",
   "type": "object",
   "required": [
     "packet_id",

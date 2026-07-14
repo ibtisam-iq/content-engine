@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# Script: delete-packet.sh
+# Role: Permanently removes a target content packet directory, prunes empty month/year folders, and re-indexes the catalog.
+# Inputs: --packet (ID or relative path). Outputs: Removes target folder under content/ and regenerates registry/catalog.json.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
