@@ -1,0 +1,45 @@
+packet_id: "2026-07-16-debugbox-k8s-announcement"
+title: "DebugBox: Multi-variant Kubernetes Debugging Containers"
+date: "2026-07-16"
+topic: "debugbox-k8s-announcement"
+lifecycle_status: "ready"
+
+taxonomy:
+  pillars:
+    - "platform-engineering"
+    - "open-source"
+  tags:
+    - "kubernetes"
+    - "containers"
+    - "devops"
+    - "sre"
+    - "debugbox"
+  campaign: "debugbox-v1-launch"
+  series: "debugbox-series"
+
+lineage:
+  canonical_source: "https://github.com/ibtisam-iq/debugbox"
+  repurposed_from: ""
+  related_project: "debugbox-v1.1.0"
+  derivatives:
+    - "2026-07-18-debugbox-tool-curation"
+    - "2026-07-22-debugbox-cicd-pipeline"
+    - "2026-07-25-debugbox-docs-restructure"
+
+governance:
+  created_at: "2026-07-16T00:00:00Z"
+  updated_at: "2026-07-16T00:00:00Z"
+  author: "ibtisam"
+  owner: "ibtisam"
+  reviewers: []
+  related_project: "debugbox-v1.1.0"
+
+channels_manifest:
+  - channels/linkedin.md
+
+aggregate_metrics:
+  total_impressions: 0
+  total_engagements: 0
+  total_clicks: 0
+  total_conversions: 0
+  last_updated: ""
