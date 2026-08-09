@@ -1,0 +1,56 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d1220"/>
+      <stop offset="1" stop-color="#090c12"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.16" cy="0.2" r="0.6">
+      <stop offset="0" stop-color="#58a6ff" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#58a6ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="630" fill="url(#bg)"/>
+  <ellipse cx="200" cy="120" rx="620" ry="420" fill="url(#glow)"/>
+
+  <!-- header -->
+  <rect x="72" y="44" width="56" height="56" rx="14" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <text x="100" y="81" font-family="Menlo, monospace" font-size="24" font-weight="bold" fill="#58a6ff" text-anchor="middle">IQ</text>
+  <text x="146" y="93" font-family="Menlo, monospace" font-size="56" font-weight="bold" fill="#e6edf3">boot<tspan fill="#58a6ff">able</tspan> rootfs</text>
+
+  <!-- subtitle -->
+  <text x="74" y="142" font-family="Menlo, monospace" font-size="23" fill="#7d8590">An OCI image that boots as a microVM, not a container</text>
+  <rect x="74" y="156" width="58" height="4" rx="2" fill="#58a6ff"/>
+
+  <!-- section label -->
+  <text x="74" y="203" font-family="Menlo, monospace" font-size="13" letter-spacing="2" fill="#6e7681">SAME ARTIFACT FORMAT  ·  DIFFERENT MACHINE</text>
+
+  <!-- ============ left panel: container image ============ -->
+  <rect x="74" y="222" width="470" height="326" rx="14" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <text x="104" y="262" font-family="Menlo, monospace" font-size="19" font-weight="bold" fill="#e6edf3">CONTAINER IMAGE</text>
+  <rect x="104" y="276" width="40" height="3" rx="1.5" fill="#6e7681"/>
+
+  <text x="104" y="320" font-family="Menlo, monospace" font-size="18" fill="#7d8590">borrows the host kernel</text>
+  <text x="104" y="356" font-family="Menlo, monospace" font-size="18" fill="#7d8590">one process, started for it</text>
+  <text x="104" y="392" font-family="Menlo, monospace" font-size="18" fill="#7d8590">no init system</text>
+  <text x="104" y="428" font-family="Menlo, monospace" font-size="18" fill="#7d8590">no sshd</text>
+
+  <line x1="104" y1="462" x2="514" y2="462" stroke="#30363d" stroke-width="1.5"/>
+  <text x="104" y="502" font-family="Menlo, monospace" font-size="20" fill="#f85149">✗  boots as a VM</text>
+
+  <!-- ============ right panel: bootable rootfs ============ -->
+  <rect x="656" y="222" width="470" height="326" rx="14" fill="#161b22" stroke="#58a6ff" stroke-width="1.5"/>
+  <text x="686" y="262" font-family="Menlo, monospace" font-size="19" font-weight="bold" fill="#e6edf3">BOOTABLE ROOTFS</text>
+  <rect x="686" y="276" width="40" height="3" rx="1.5" fill="#58a6ff"/>
+
+  <text x="686" y="320" font-family="Menlo, monospace" font-size="18" fill="#e6edf3">systemd takes PID 1</text>
+  <text x="686" y="356" font-family="Menlo, monospace" font-size="18" fill="#e6edf3">sshd enabled on :22</text>
+  <text x="686" y="392" font-family="Menlo, monospace" font-size="18" fill="#e6edf3">users already exist</text>
+  <text x="686" y="428" font-family="Menlo, monospace" font-size="18" fill="#e6edf3">host keys deleted</text>
+
+  <line x1="686" y1="462" x2="1096" y2="462" stroke="#30363d" stroke-width="1.5"/>
+  <text x="686" y="502" font-family="Menlo, monospace" font-size="20" fill="#3fb950">✓  boots as a VM</text>
+
+  <!-- footer -->
+  <text x="74" y="590" font-family="Menlo, monospace" font-size="17" fill="#6e7681">iximiuz Labs tutorial  ·  prove it boots without booting it</text>
+</svg>
