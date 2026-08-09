@@ -21,7 +21,7 @@ tagz:
 createdAt: 2026-07-31
 updatedAt: 2026-07-31
 
-cover: __static__/cover.png
+cover: __static__/cover-v1.png
 
 playground:
   name: docker
@@ -82,17 +82,37 @@ tasks:
     user: laborant
     timeout_seconds: 300
     run: |
-      test -f /home/laborant/rootfs-lab/validate.sh || exit 1
-      cd /home/laborant/rootfs-lab && bash validate.sh bootable-rootfs:v1
+      # An empty file would run and exit 0, so the exit code alone proves nothing.
+      # Require the script to actually emit every check, and to report no failures.
+      cd /home/laborant/rootfs-lab || exit 1
+      test -s validate.sh || exit 1
+      out=$(bash validate.sh bootable-rootfs:v1 2>&1) || exit 1
+      for label in "init system" "sshd present" "host keys" "machine-id" "dockerenv" "architecture"; do
+        printf '%s' "$out" | grep -qi -- "$label" || exit 1
+      done
+      printf '%s' "$out" | grep -q 'FAIL' && exit 1
+      exit 0
 
   thirdparty_validation_passes:
     machine: docker-01
     user: laborant
     timeout_seconds: 600
     run: |
+      # Verifies the three repairs were actually applied, not just that a script ran.
+      # The post-repair labels are the evidence: an unrepaired or empty script lacks them.
       cd /home/laborant/rootfs-lab || exit 1
-      bash validate.sh ghcr.io/ibtisam-iq/ubuntu-24-04-rootfs:latest ibtisam || exit 1
-      bash validate.sh bootable-rootfs:v1 || exit 1
+      test -s validate.sh || exit 1
+      check_one() {
+        out=$(bash validate.sh $1 2>&1) || return 1
+        printf '%s' "$out" | grep -q 'FAIL' && return 1
+        printf '%s' "$out" | grep -qi 'starts at boot'  || return 1
+        printf '%s' "$out" | grep -qi 'login user'      || return 1
+        printf '%s' "$out" | grep -qi 'uninitialised'   || return 1
+        return 0
+      }
+      check_one "ghcr.io/ibtisam-iq/ubuntu-24-04-rootfs:latest ibtisam" || exit 1
+      check_one "bootable-rootfs:v1" || exit 1
+      exit 0
 ---
 
 ## Prerequisites
@@ -439,7 +459,7 @@ rm -rf "$tmpd"
 
 Silence. It is genuinely not in any layer. `docker save` streams the image itself rather than a container built from it, which is the only view without a runtime in the way.
 
-![What each probe can see: docker run and docker create span the runtime overlay where /.dockerenv lives, docker save stops at the image layers](__static__/dockerenv-three-probes.png)
+![What each probe can see: docker run and docker create span the runtime overlay where /.dockerenv lives, docker save stops at the image layers](__static__/dockerenv-three-probes-v1.png)
 
 ::remark-box
 ---
