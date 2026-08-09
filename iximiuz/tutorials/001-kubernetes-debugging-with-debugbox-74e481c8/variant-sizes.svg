@@ -1,0 +1,39 @@
+<svg width="1120" height="560" viewBox="0 0 1120 560" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d1220"/>
+      <stop offset="1" stop-color="#090c12"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1120" height="560" fill="url(#bg)"/>
+
+  <text x="56" y="84" font-family="Menlo, monospace" font-size="30" font-weight="bold" fill="#e6edf3">Pull only what you need</text>
+  <text x="57" y="116" font-family="Menlo, monospace" font-size="17" fill="#7d8590">Each higher variant includes everything from the lower ones</text>
+
+  <!-- lite -->
+  <text x="214" y="170" font-family="Menlo, monospace" font-size="23" fill="#3fb950" text-anchor="end">lite</text>
+  <rect x="230" y="141" width="115" height="44" rx="6" fill="#3fb950"/>
+  <text x="361" y="170" font-family="Menlo, monospace" font-size="20" fill="#3fb950">15 MB</text>
+  <text x="230" y="210" font-family="Menlo, monospace" font-size="17" fill="#8b949e">curl · dig · netcat · jq · yq</text>
+
+  <!-- balanced -->
+  <text x="214" y="270" font-family="Menlo, monospace" font-size="23" fill="#e3b341" text-anchor="end">balanced</text>
+  <rect x="230" y="241" width="362" height="44" rx="6" fill="#e3b341"/>
+  <text x="608" y="270" font-family="Menlo, monospace" font-size="20" fill="#e3b341">47 MB</text>
+  <text x="230" y="310" font-family="Menlo, monospace" font-size="17" fill="#8b949e"><tspan fill="#586069">adds  </tspan>tcpdump · openssl · strace · kubectx/kubens</text>
+
+  <!-- power -->
+  <text x="214" y="370" font-family="Menlo, monospace" font-size="23" fill="#ff7b72" text-anchor="end">power</text>
+  <rect x="230" y="341" width="700" height="44" rx="6" fill="#ff7b72"/>
+  <text x="946" y="370" font-family="Menlo, monospace" font-size="20" fill="#ff7b72">91 MB</text>
+  <text x="230" y="410" font-family="Menlo, monospace" font-size="17" fill="#8b949e"><tspan fill="#586069">adds  </tspan>tshark · nmap · iptables · conntrack</text>
+
+  <!-- code block -->
+  <text x="56" y="454" font-family="Menlo, monospace" font-size="16" fill="#7d8590">Run any variant with one command</text>
+  <rect x="56" y="466" width="1008" height="74" rx="10" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <circle cx="86" cy="490" r="5" fill="#ff5f56"/>
+  <circle cx="104" cy="490" r="5" fill="#ffbd2e"/>
+  <circle cx="122" cy="490" r="5" fill="#27c93f"/>
+  <text x="86" y="522" font-family="Menlo, monospace" font-size="19" fill="#e6edf3"><tspan fill="#3fb950">$ </tspan>kubectl debug my-pod -it --image=<tspan fill="#58a6ff">ghcr.io/ibtisam-iq/debugbox:lite</tspan></text>
+</svg>

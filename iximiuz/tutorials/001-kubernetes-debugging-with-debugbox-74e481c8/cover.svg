@@ -1,0 +1,59 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d1220"/>
+      <stop offset="1" stop-color="#090c12"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.16" cy="0.2" r="0.6">
+      <stop offset="0" stop-color="#58a6ff" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#58a6ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="630" fill="url(#bg)"/>
+  <ellipse cx="200" cy="120" rx="620" ry="420" fill="url(#glow)"/>
+
+  <!-- header -->
+  <rect x="72" y="44" width="56" height="56" rx="14" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <text x="100" y="81" font-family="Menlo, monospace" font-size="24" font-weight="bold" fill="#58a6ff" text-anchor="middle">IQ</text>
+  <text x="146" y="93" font-family="Menlo, monospace" font-size="56" font-weight="bold" fill="#e6edf3">Debug<tspan fill="#58a6ff">Box</tspan></text>
+
+  <!-- subtitle -->
+  <text x="74" y="142" font-family="Menlo, monospace" font-size="23" fill="#7d8590">Right-sized Kubernetes debugging containers</text>
+  <rect x="74" y="156" width="58" height="4" rx="2" fill="#58a6ff"/>
+
+  <!-- section label -->
+  <text x="240" y="198" font-family="Menlo, monospace" font-size="13" letter-spacing="2" fill="#6e7681">COMPRESSED IMAGE SIZE  ·  SMALLER IS BETTER</text>
+
+  <!-- lite -->
+  <text x="224" y="240" font-family="Menlo, monospace" font-size="21" fill="#3fb950" text-anchor="end">lite</text>
+  <rect x="240" y="212" width="64" height="40" rx="6" fill="#3fb950"/>
+  <text x="318" y="240" font-family="Menlo, monospace" font-size="19" fill="#3fb950">15 MB</text>
+
+  <!-- balanced -->
+  <text x="224" y="294" font-family="Menlo, monospace" font-size="21" fill="#e3b341" text-anchor="end">balanced</text>
+  <rect x="240" y="266" width="200" height="40" rx="6" fill="#e3b341"/>
+  <text x="454" y="294" font-family="Menlo, monospace" font-size="19" fill="#e3b341">47 MB</text>
+
+  <!-- power -->
+  <text x="224" y="348" font-family="Menlo, monospace" font-size="21" fill="#ff7b72" text-anchor="end">power</text>
+  <rect x="240" y="320" width="387" height="40" rx="6" fill="#ff7b72"/>
+  <text x="641" y="348" font-family="Menlo, monospace" font-size="19" fill="#ff7b72">91 MB</text>
+
+  <!-- netshoot baseline -->
+  <text x="224" y="402" font-family="Menlo, monospace" font-size="21" fill="#6e7681" text-anchor="end">netshoot</text>
+  <rect x="240" y="374" width="860" height="40" rx="6" fill="#21262d" stroke="#30363d" stroke-width="1.5"/>
+  <text x="1084" y="401" font-family="Menlo, monospace" font-size="18" fill="#8b949e" text-anchor="end">202 MB  ·  pull it all, every time</text>
+
+  <!-- terminal command -->
+  <text x="72" y="452" font-family="Menlo, monospace" font-size="15" fill="#7d8590">One command runs any variant</text>
+  <rect x="72" y="464" width="1056" height="76" rx="12" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <circle cx="100" cy="490" r="5" fill="#ff5f56"/>
+  <circle cx="118" cy="490" r="5" fill="#ffbd2e"/>
+  <circle cx="136" cy="490" r="5" fill="#27c93f"/>
+  <text x="100" y="522" font-family="Menlo, monospace" font-size="19" fill="#e6edf3"><tspan fill="#3fb950">$ </tspan>kubectl debug my-pod -it --image=<tspan fill="#58a6ff">ghcr.io/ibtisam-iq/debugbox:lite</tspan></text>
+
+  <!-- footer -->
+  <text x="72" y="582" font-family="Menlo, monospace" font-size="20" fill="#58a6ff">debugbox.ibtisam-iq.com</text>
+  <text x="1128" y="582" font-family="Menlo, monospace" font-size="17" fill="#6e7681" text-anchor="end">#kubernetes  #debugging  #sre</text>
+</svg>
