@@ -1,0 +1,74 @@
+<svg width="1200" height="648" viewBox="0 0 1200 648" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d1220"/><stop offset="1" stop-color="#090c12"/>
+    </linearGradient>
+    <linearGradient id="card-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#161b22"/><stop offset="1" stop-color="#0d1117"/>
+    </linearGradient>
+    <marker id="a" markerWidth="10" markerHeight="8" refX="7.5" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#8b949e"/>
+    </marker>
+    <marker id="ar" markerWidth="10" markerHeight="8" refX="7.5" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#f85149"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1200" height="648" fill="url(#bg)"/>
+
+  <text x="56" y="58" font-family="Menlo, monospace" font-size="28" font-weight="bold" fill="#e6edf3">Two loops behind one load balancer</text>
+  <text x="57" y="88" font-family="Menlo, monospace" font-size="15" fill="#7d8590">Every component was individually working. That was the problem.</text>
+  <text x="1144" y="58" font-family="Menlo, monospace" font-size="20" font-weight="bold" fill="#58a6ff" text-anchor="end">ibtisam-iq</text>
+
+  <text x="56" y="132" font-family="Menlo, monospace" font-size="12" letter-spacing="1.5" fill="#f85149">LOOP 1  ·  THE INSTANCE THAT KEPT BEING REPLACED</text>
+  <rect x="56" y="146" width="1088" height="146" rx="10" fill="url(#card-grad)" stroke="#f85149" stroke-width="1.5"/>
+
+  <text x="146" y="190" font-family="Menlo, monospace" font-size="14" fill="#e6edf3" text-anchor="middle">health check</text>
+  <text x="146" y="218" font-family="Menlo, monospace" font-size="20" font-weight="bold" fill="#f85149" text-anchor="middle">302</text>
+  <text x="146" y="240" font-family="Menlo, monospace" font-size="12" fill="#7d8590" text-anchor="middle">/actuator/health</text>
+  <line x1="236" y1="206" x2="296" y2="206" stroke="#8b949e" stroke-width="2" marker-end="url(#a)"/>
+
+  <text x="392" y="190" font-family="Menlo, monospace" font-size="14" fill="#e6edf3" text-anchor="middle">Spring Security</text>
+  <text x="392" y="216" font-family="Menlo, monospace" font-size="12" fill="#7d8590" text-anchor="middle">redirects to login,</text>
+  <text x="392" y="236" font-family="Menlo, monospace" font-size="12" fill="#7d8590" text-anchor="middle">checker gets HTML</text>
+  <line x1="510" y1="206" x2="570" y2="206" stroke="#8b949e" stroke-width="2" marker-end="url(#a)"/>
+
+  <text x="666" y="190" font-family="Menlo, monospace" font-size="14" fill="#e6edf3" text-anchor="middle">target marked</text>
+  <text x="666" y="218" font-family="Menlo, monospace" font-size="17" font-weight="bold" fill="#f85149" text-anchor="middle">unhealthy</text>
+  <line x1="768" y1="206" x2="828" y2="206" stroke="#8b949e" stroke-width="2" marker-end="url(#a)"/>
+
+  <text x="936" y="190" font-family="Menlo, monospace" font-size="14" fill="#e6edf3" text-anchor="middle">ASG replaces it</text>
+  <text x="936" y="216" font-family="Menlo, monospace" font-size="12" fill="#7d8590" text-anchor="middle">draining, terminated,</text>
+  <text x="936" y="236" font-family="Menlo, monospace" font-size="12" fill="#7d8590" text-anchor="middle">relaunched, same check</text>
+
+  <path d="M1040 206 L1096 206 L1096 270 L146 270 L146 254" fill="none" stroke="#f85149" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ar)"/>
+  <text x="620" y="264" font-family="Menlo, monospace" font-size="12" fill="#f85149" text-anchor="middle">initial to unhealthy to draining to terminated to new instance, repeat</text>
+
+  <rect x="56" y="306" width="1088" height="36" rx="8" fill="#0d2818" stroke="#3fb950" stroke-width="1"/>
+  <text x="74" y="330" font-family="Menlo, monospace" font-size="14" fill="#3fb950">FIX  a permitAll matcher for the health path, placed ABOVE the anyRequest catch-all. Ordering is the whole fix.</text>
+
+  <text x="56" y="396" font-family="Menlo, monospace" font-size="12" letter-spacing="1.5" fill="#f85149">LOOP 2  ·  THE LOGIN THAT NEVER STUCK</text>
+  <rect x="56" y="410" width="1088" height="146" rx="10" fill="url(#card-grad)" stroke="#f85149" stroke-width="1.5"/>
+
+  <text x="164" y="454" font-family="Menlo, monospace" font-size="14" fill="#e6edf3" text-anchor="middle">TLS ends at the ALB</text>
+  <text x="164" y="480" font-family="Menlo, monospace" font-size="12" fill="#7d8590" text-anchor="middle">app sees plain HTTP</text>
+  <line x1="290" y1="466" x2="350" y2="466" stroke="#8b949e" stroke-width="2" marker-end="url(#a)"/>
+
+  <text x="450" y="454" font-family="Menlo, monospace" font-size="14" fill="#e6edf3" text-anchor="middle">redirect built as</text>
+  <text x="450" y="480" font-family="Menlo, monospace" font-size="16" font-weight="bold" fill="#d29922" text-anchor="middle">http://</text>
+  <line x1="546" y1="466" x2="606" y2="466" stroke="#8b949e" stroke-width="2" marker-end="url(#a)"/>
+
+  <text x="712" y="454" font-family="Menlo, monospace" font-size="14" fill="#e6edf3" text-anchor="middle">browser upgrades to</text>
+  <text x="712" y="480" font-family="Menlo, monospace" font-size="16" font-weight="bold" fill="#58a6ff" text-anchor="middle">https://</text>
+  <line x1="834" y1="466" x2="894" y2="466" stroke="#8b949e" stroke-width="2" marker-end="url(#a)"/>
+
+  <text x="994" y="454" font-family="Menlo, monospace" font-size="14" fill="#e6edf3" text-anchor="middle">browser will not send it</text>
+  <text x="994" y="480" font-family="Menlo, monospace" font-size="14" font-weight="bold" fill="#f85149" text-anchor="middle">cookie not Secure</text>
+
+  <path d="M1090 466 L1108 466 L1108 534 L164 534 L164 494" fill="none" stroke="#f85149" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ar)"/>
+  <text x="636" y="528" font-family="Menlo, monospace" font-size="12" fill="#f85149" text-anchor="middle">session lost, back to login</text>
+
+  <rect x="56" y="570" width="1088" height="36" rx="8" fill="#0d2818" stroke="#3fb950" stroke-width="1"/>
+  <text x="74" y="594" font-family="Menlo, monospace" font-size="14" fill="#3fb950">FIX  forward-headers-strategy=native   ·   cookie.secure=true   ·   cookie.same-site=lax</text>
+
+  <text x="56" y="636" font-family="Menlo, monospace" font-size="15" font-weight="bold" fill="#e6edf3">The load balancer and the application were both telling the truth.</text>
+</svg>
