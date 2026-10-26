@@ -1,0 +1,59 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d1220"/>
+      <stop offset="1" stop-color="#090c12"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- ===== HEADER ===== -->
+  <text x="60" y="50" font-family="Menlo, monospace" font-size="14" fill="#58a6ff" letter-spacing="2.5">DOCKERFILE, NOT A CONTAINER</text>
+  <text x="60" y="86" font-family="Menlo, monospace" font-size="24" font-weight="bold" fill="#e6edf3">The lines that only make sense outside Docker</text>
+
+  <!-- ===== CODE ROWS ===== -->
+  <rect x="60" y="112" width="1080" height="42" rx="6" fill="#0b0f17" stroke="#161b22"/>
+  <rect x="60" y="112" width="3" height="42" fill="#e3b341"/>
+  <text x="82" y="139" font-family="Menlo, monospace" font-size="15" fill="#e6edf3">yes | unminimize</text>
+  <text x="450" y="139" font-family="Menlo, monospace" font-size="14" fill="#8b949e">restore the full userland Ubuntu&#8217;s image trims</text>
+
+  <rect x="60" y="162" width="1080" height="42" rx="6" fill="#0b0f17" stroke="#161b22"/>
+  <rect x="60" y="162" width="3" height="42" fill="#ff7b72"/>
+  <text x="82" y="189" font-family="Menlo, monospace" font-size="15" fill="#e6edf3">rm -f /etc/ssh/ssh_host_*</text>
+  <text x="450" y="189" font-family="Menlo, monospace" font-size="14" fill="#8b949e">or every VM shares one identity</text>
+
+  <rect x="60" y="212" width="1080" height="42" rx="6" fill="#0b0f17" stroke="#161b22"/>
+  <rect x="60" y="212" width="3" height="42" fill="#ff7b72"/>
+  <text x="82" y="239" font-family="Menlo, monospace" font-size="15" fill="#e6edf3">echo "" &gt; /etc/machine-id</text>
+  <text x="450" y="239" font-family="Menlo, monospace" font-size="14" fill="#8b949e">or every VM claims to be the same host</text>
+
+  <rect x="60" y="262" width="1080" height="42" rx="6" fill="#0b0f17" stroke="#161b22"/>
+  <rect x="60" y="262" width="3" height="42" fill="#ff7b72"/>
+  <text x="82" y="289" font-family="Menlo, monospace" font-size="15" fill="#e6edf3">rm -f /.dockerenv</text>
+  <text x="450" y="289" font-family="Menlo, monospace" font-size="14" fill="#8b949e">or systemd decides it is in a container</text>
+
+  <rect x="60" y="312" width="1080" height="42" rx="6" fill="#0b0f17" stroke="#161b22"/>
+  <rect x="60" y="312" width="3" height="42" fill="#3fb950"/>
+  <text x="82" y="339" font-family="Menlo, monospace" font-size="15" fill="#e6edf3">systemctl enable ssh.service</text>
+  <text x="450" y="339" font-family="Menlo, monospace" font-size="14" fill="#8b949e">enable, not start: no init runs at build time</text>
+
+  <rect x="60" y="362" width="1080" height="42" rx="6" fill="#0b0f17" stroke="#161b22"/>
+  <rect x="60" y="362" width="3" height="42" fill="#6e7681"/>
+  <text x="82" y="389" font-family="Menlo, monospace" font-size="15" fill="#6e7681">no CMD on the base image</text>
+  <text x="450" y="389" font-family="Menlo, monospace" font-size="14" fill="#8b949e">the platform boots it with its own kernel</text>
+
+  <!-- ===== THE MODEL ===== -->
+  <rect x="60" y="436" width="520" height="106" rx="10" fill="#0b1a10" stroke="#3fb950" stroke-width="1.5"/>
+  <text x="80" y="466" font-family="Menlo, monospace" font-size="15" font-weight="bold" fill="#3fb950">BAKE what is static</text>
+  <text x="80" y="494" font-family="Menlo, monospace" font-size="14" fill="#a8b3bd">packages, configs, unit files</text>
+  <text x="80" y="518" font-family="Menlo, monospace" font-size="14" fill="#a8b3bd">binaries, enabled services</text>
+
+  <rect x="620" y="436" width="520" height="106" rx="10" fill="#0b1420" stroke="#58a6ff" stroke-width="1.5"/>
+  <text x="640" y="466" font-family="Menlo, monospace" font-size="15" font-weight="bold" fill="#58a6ff">RECONCILE what is per-boot</text>
+  <text x="640" y="494" font-family="Menlo, monospace" font-size="14" fill="#a8b3bd">host keys, machine-id, runtime dirs</text>
+  <text x="640" y="518" font-family="Menlo, monospace" font-size="14" fill="#a8b3bd">ownership, data</text>
+
+  <!-- ===== PUNCHLINE ===== -->
+  <text x="60" y="590" font-family="Menlo, monospace" font-size="17" font-weight="bold" fill="#e6edf3">One systemd oneshot does the second half, ordered before everything else.</text>
+</svg>
