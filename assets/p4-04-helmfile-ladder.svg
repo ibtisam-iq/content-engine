@@ -1,0 +1,66 @@
+<svg width="1200" height="660" viewBox="0 0 1200 660" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d1220"/><stop offset="1" stop-color="#090c12"/>
+    </linearGradient>
+    <linearGradient id="card-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#161b22"/><stop offset="1" stop-color="#0d1117"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="1200" height="660" fill="url(#bg)"/>
+
+  <text x="56" y="58" font-family="Menlo, monospace" font-size="28" font-weight="bold" fill="#e6edf3">One chart, a ladder of dependencies</text>
+  <text x="57" y="88" font-family="Menlo, monospace" font-size="15" fill="#7d8590">The orders service, six values files, no forks. Every rung is a real place to stand.</text>
+  <text x="1144" y="58" font-family="Menlo, monospace" font-size="20" font-weight="bold" fill="#58a6ff" text-anchor="end">ibtisam-iq</text>
+
+  <rect x="56" y="118" width="14" height="14" rx="3" fill="#3fb950" opacity="0.75"/>
+  <text x="78" y="130" font-family="Menlo, monospace" font-size="14" fill="#7d8590">wired into a helmfile scenario</text>
+  <rect x="420" y="118" width="14" height="14" rx="3" fill="#484f58"/>
+  <text x="442" y="130" font-family="Menlo, monospace" font-size="14" fill="#7d8590">available, not currently wired</text>
+
+  <rect x="56" y="512" width="972" height="56" rx="10" fill="#484f58" opacity="0.25"/>
+  <rect x="56" y="512" width="972" height="56" rx="10" fill="none" stroke="#484f58" stroke-width="1.5"/>
+  <text x="80" y="536" font-family="Menlo, monospace" font-size="13" fill="#8b949e">01</text>
+  <text x="130" y="538" font-family="Menlo, monospace" font-size="16" font-weight="bold" fill="#c9d1d9">in memory</text>
+  <text x="130" y="558" font-family="Menlo, monospace" font-size="12" fill="#7d8590">no infrastructure at all, the fastest way to prove a deployment works before storage exists</text>
+
+  <rect x="56" y="446" width="972" height="56" rx="10" fill="#3fb950" opacity="0.2"/>
+  <rect x="56" y="446" width="972" height="56" rx="10" fill="none" stroke="#3fb950" stroke-width="1.5"/>
+  <text x="80" y="470" font-family="Menlo, monospace" font-size="13" fill="#3fb950">02</text>
+  <text x="130" y="472" font-family="Menlo, monospace" font-size="16" font-weight="bold" fill="#e6edf3">PostgreSQL, messaging in memory</text>
+  <text x="130" y="492" font-family="Menlo, monospace" font-size="12" fill="#7d8590">ephemeral database, no message broker</text>
+  <text x="1004" y="478" font-family="Menlo, monospace" font-size="12" fill="#3fb950" text-anchor="end">baremetal-ephemeral</text>
+
+  <rect x="56" y="380" width="972" height="56" rx="10" fill="#3fb950" opacity="0.2"/>
+  <rect x="56" y="380" width="972" height="56" rx="10" fill="none" stroke="#3fb950" stroke-width="1.5"/>
+  <text x="80" y="404" font-family="Menlo, monospace" font-size="13" fill="#3fb950">03</text>
+  <text x="130" y="406" font-family="Menlo, monospace" font-size="16" font-weight="bold" fill="#e6edf3">PostgreSQL and RabbitMQ on local disk</text>
+  <text x="130" y="426" font-family="Menlo, monospace" font-size="12" fill="#7d8590">PVCs backed by local-path</text>
+  <text x="1004" y="412" font-family="Menlo, monospace" font-size="12" fill="#3fb950" text-anchor="end">baremetal-persistent</text>
+
+  <rect x="56" y="314" width="972" height="56" rx="10" fill="#484f58" opacity="0.25"/>
+  <rect x="56" y="314" width="972" height="56" rx="10" fill="none" stroke="#484f58" stroke-width="1.5"/>
+  <text x="80" y="338" font-family="Menlo, monospace" font-size="13" fill="#8b949e">04</text>
+  <text x="130" y="340" font-family="Menlo, monospace" font-size="16" font-weight="bold" fill="#c9d1d9">the same pair on EBS</text>
+  <text x="130" y="360" font-family="Menlo, monospace" font-size="12" fill="#7d8590">same workloads, gp3 volumes</text>
+
+  <rect x="56" y="248" width="972" height="56" rx="10" fill="#484f58" opacity="0.25"/>
+  <rect x="56" y="248" width="972" height="56" rx="10" fill="none" stroke="#484f58" stroke-width="1.5"/>
+  <text x="80" y="272" font-family="Menlo, monospace" font-size="13" fill="#8b949e">05</text>
+  <text x="130" y="274" font-family="Menlo, monospace" font-size="16" font-weight="bold" fill="#c9d1d9">both pointed at external endpoints</text>
+  <text x="130" y="294" font-family="Menlo, monospace" font-size="12" fill="#7d8590">nothing stateful in the cluster</text>
+
+  <rect x="56" y="182" width="972" height="56" rx="10" fill="#3fb950" opacity="0.2"/>
+  <rect x="56" y="182" width="972" height="56" rx="10" fill="none" stroke="#3fb950" stroke-width="1.5"/>
+  <text x="80" y="206" font-family="Menlo, monospace" font-size="13" fill="#3fb950">06</text>
+  <text x="130" y="208" font-family="Menlo, monospace" font-size="16" font-weight="bold" fill="#e6edf3">PostgreSQL with AWS SQS</text>
+  <text x="130" y="228" font-family="Menlo, monospace" font-size="12" fill="#7d8590">an IAM role attached to a service account</text>
+  <text x="1004" y="214" font-family="Menlo, monospace" font-size="12" fill="#3fb950" text-anchor="end">eks</text>
+
+  <text x="1144" y="204" font-family="Menlo, monospace" font-size="11" letter-spacing="1.5" fill="#6e7681" text-anchor="end">MORE MANAGED</text>
+  <text x="1144" y="544" font-family="Menlo, monospace" font-size="11" letter-spacing="1.5" fill="#6e7681" text-anchor="end">NO DEPS</text>
+
+  <rect x="56" y="590" width="1088" height="52" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <text x="74" y="613" font-family="Menlo, monospace" font-size="15" font-weight="bold" fill="#e6edf3">Five services, twenty six overlays, three Helmfile scenarios that each pick a rung.</text>
+  <text x="74" y="633" font-family="Menlo, monospace" font-size="13" fill="#7d8590">Portability is not two configurations. It is a ladder, and the rungs above where I stopped are still there.</text>
+</svg>
