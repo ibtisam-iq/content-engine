@@ -18,9 +18,24 @@
 # Agent/assistant
 .claude/
 
+# Node & dependencies
+node_modules/
+
+# Python bytecode & test cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Temporary browser profiles and artifacts
+.chrome_tmp/
+
+# Commit automation scripts
+commit_all.sh
+
 # MkDocs
 site/
 .cache/
 
 # Backups
 *.bak
+
