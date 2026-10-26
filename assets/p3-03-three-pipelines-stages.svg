@@ -1,0 +1,81 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d1220"/>
+      <stop offset="1" stop-color="#090c12"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="800" fill="url(#bg)"/>
+
+  <text x="56" y="58" font-family="Menlo, monospace" font-size="28" font-weight="bold" fill="#e6edf3">Portability is not uniformity</text>
+  <text x="57" y="88" font-family="Menlo, monospace" font-size="15" fill="#7d8590">The contract stays fixed. The implementation stays native to the language.</text>
+
+  <rect x="56" y="116" width="14" height="14" rx="3" fill="#3fb950" opacity="0.55"/>
+  <text x="78" y="128" font-family="Menlo, monospace" font-size="14" fill="#7d8590">shared spine, in all three</text>
+  <rect x="380" y="116" width="14" height="14" rx="3" fill="#484f58"/>
+  <text x="402" y="128" font-family="Menlo, monospace" font-size="14" fill="#7d8590">language-specific additions</text>
+
+  <text x="290" y="178" font-family="Menlo, monospace" font-size="20" font-weight="bold" fill="#e6edf3" text-anchor="middle">Java</text>
+  <text x="290" y="202" font-family="Menlo, monospace" font-size="15" fill="#7d8590" text-anchor="middle">14 stages</text>
+  <text x="640" y="178" font-family="Menlo, monospace" font-size="20" font-weight="bold" fill="#e6edf3" text-anchor="middle">Python</text>
+  <text x="640" y="202" font-family="Menlo, monospace" font-size="15" fill="#7d8590" text-anchor="middle">16 stages</text>
+  <text x="990" y="178" font-family="Menlo, monospace" font-size="20" font-weight="bold" fill="#e6edf3" text-anchor="middle">Node</text>
+  <text x="990" y="202" font-family="Menlo, monospace" font-size="15" fill="#7d8590" text-anchor="middle">21 stages</text>
+
+  <text x="56" y="236" font-family="Menlo, monospace" font-size="12" letter-spacing="1.2" fill="#6e7681">THE CONTRACT</text>
+
+  <g font-family="Menlo, monospace" font-size="13" fill="#8b949e">
+    <text x="56" y="266">Checkout</text>
+    <text x="56" y="298">Trivy FS scan</text>
+    <text x="56" y="330">Versioning</text>
+    <text x="56" y="362">Build &amp; Test</text>
+    <text x="56" y="394">SonarQube</text>
+    <text x="56" y="426">Quality Gate</text>
+    <text x="56" y="458">Docker Build</text>
+    <text x="56" y="490">Trivy Image scan</text>
+    <text x="56" y="522">Publish</text>
+    <text x="56" y="554">Push registries</text>
+    <text x="56" y="586">Update CD repo</text>
+  </g>
+
+  <g fill="#3fb950" opacity="0.55">
+    <rect x="230" y="250" width="120" height="22" rx="4"/><rect x="580" y="250" width="120" height="22" rx="4"/><rect x="930" y="250" width="120" height="22" rx="4"/>
+    <rect x="230" y="282" width="120" height="22" rx="4"/><rect x="580" y="282" width="120" height="22" rx="4"/><rect x="930" y="282" width="120" height="22" rx="4"/>
+    <rect x="230" y="314" width="120" height="22" rx="4"/><rect x="580" y="314" width="120" height="22" rx="4"/><rect x="930" y="314" width="120" height="22" rx="4"/>
+    <rect x="230" y="346" width="120" height="22" rx="4"/><rect x="580" y="346" width="120" height="22" rx="4"/><rect x="930" y="346" width="120" height="22" rx="4"/>
+    <rect x="230" y="378" width="120" height="22" rx="4"/><rect x="580" y="378" width="120" height="22" rx="4"/><rect x="930" y="378" width="120" height="22" rx="4"/>
+    <rect x="230" y="410" width="120" height="22" rx="4"/><rect x="580" y="410" width="120" height="22" rx="4"/><rect x="930" y="410" width="120" height="22" rx="4"/>
+    <rect x="230" y="442" width="120" height="22" rx="4"/><rect x="580" y="442" width="120" height="22" rx="4"/><rect x="930" y="442" width="120" height="22" rx="4"/>
+    <rect x="230" y="474" width="120" height="22" rx="4"/><rect x="580" y="474" width="120" height="22" rx="4"/><rect x="930" y="474" width="120" height="22" rx="4"/>
+    <rect x="230" y="506" width="120" height="22" rx="4"/><rect x="580" y="506" width="120" height="22" rx="4"/><rect x="930" y="506" width="120" height="22" rx="4"/>
+    <rect x="230" y="538" width="120" height="22" rx="4"/><rect x="580" y="538" width="120" height="22" rx="4"/><rect x="930" y="538" width="120" height="22" rx="4"/>
+    <rect x="230" y="570" width="120" height="22" rx="4"/><rect x="580" y="570" width="120" height="22" rx="4"/><rect x="930" y="570" width="120" height="22" rx="4"/>
+  </g>
+
+  <!-- language-specific additions, 12px pitch, one bar per extra stage -->
+  <text x="56" y="620" font-family="Menlo, monospace" font-size="12" letter-spacing="1.2" fill="#6e7681">THE IMPLEMENTATION</text>
+
+  <g fill="#484f58">
+    <rect x="230" y="612" width="120" height="8" rx="2"/><rect x="230" y="624" width="120" height="8" rx="2"/><rect x="230" y="636" width="120" height="8" rx="2"/>
+    <rect x="580" y="612" width="120" height="8" rx="2"/><rect x="580" y="624" width="120" height="8" rx="2"/><rect x="580" y="636" width="120" height="8" rx="2"/><rect x="580" y="648" width="120" height="8" rx="2"/><rect x="580" y="660" width="120" height="8" rx="2"/>
+    <rect x="930" y="612" width="120" height="8" rx="2"/><rect x="930" y="624" width="120" height="8" rx="2"/><rect x="930" y="636" width="120" height="8" rx="2"/><rect x="930" y="648" width="120" height="8" rx="2"/><rect x="930" y="660" width="120" height="8" rx="2"/><rect x="930" y="672" width="120" height="8" rx="2"/><rect x="930" y="684" width="120" height="8" rx="2"/><rect x="930" y="696" width="120" height="8" rx="2"/><rect x="930" y="708" width="120" height="8" rx="2"/><rect x="930" y="720" width="120" height="8" rx="2"/>
+  </g>
+
+  <text x="290" y="700" font-family="Menlo, monospace" font-size="15" font-weight="bold" fill="#e6edf3" text-anchor="middle">+3</text>
+  <text x="290" y="722" font-family="Menlo, monospace" font-size="12" fill="#6e7681" text-anchor="middle">JAR to Nexus,</text>
+  <text x="290" y="738" font-family="Menlo, monospace" font-size="12" fill="#6e7681" text-anchor="middle">push split x3</text>
+
+  <text x="640" y="700" font-family="Menlo, monospace" font-size="15" font-weight="bold" fill="#e6edf3" text-anchor="middle">+5</text>
+  <text x="640" y="722" font-family="Menlo, monospace" font-size="12" fill="#6e7681" text-anchor="middle">venv setup, Bandit,</text>
+  <text x="640" y="738" font-family="Menlo, monospace" font-size="12" fill="#6e7681" text-anchor="middle">pip-audit, push split</text>
+
+  <text x="990" y="748" font-family="Menlo, monospace" font-size="15" font-weight="bold" fill="#e6edf3" text-anchor="middle">+10</text>
+  <text x="990" y="770" font-family="Menlo, monospace" font-size="12" fill="#6e7681" text-anchor="middle">two images end to end,</text>
+  <text x="990" y="786" font-family="Menlo, monospace" font-size="12" fill="#6e7681" text-anchor="middle">ESLint x2, npm audit</text>
+
+  <text x="56" y="668" font-family="Menlo, monospace" font-size="14" fill="#7d8590">The stage order</text>
+  <text x="56" y="688" font-family="Menlo, monospace" font-size="14" fill="#7d8590">never changed.</text>
+  <text x="56" y="716" font-family="Menlo, monospace" font-size="14" fill="#e6edf3">Everything inside</text>
+  <text x="56" y="736" font-family="Menlo, monospace" font-size="14" fill="#e6edf3">those stages did.</text>
+</svg>
