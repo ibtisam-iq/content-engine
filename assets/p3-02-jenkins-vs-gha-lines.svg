@@ -1,0 +1,47 @@
+<svg width="1200" height="540" viewBox="0 0 1200 540" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d1220"/>
+      <stop offset="1" stop-color="#090c12"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="540" fill="url(#bg)"/>
+
+  <text x="56" y="60" font-family="Menlo, monospace" font-size="28" font-weight="bold" fill="#e6edf3">The same pipeline, twice</text>
+  <text x="57" y="90" font-family="Menlo, monospace" font-size="15" fill="#7d8590">Same stages, same tools, same result. Lines of pipeline code.</text>
+
+  <!-- legend -->
+  <rect x="56" y="116" width="14" height="14" rx="3" fill="#d29922"/>
+  <text x="78" y="128" font-family="Menlo, monospace" font-size="14" fill="#7d8590">Jenkinsfile</text>
+  <rect x="200" y="116" width="14" height="14" rx="3" fill="#58a6ff"/>
+  <text x="222" y="128" font-family="Menlo, monospace" font-size="14" fill="#7d8590">.github/workflows/ci.yml</text>
+
+  <!-- Java  911 / 664  scale: 1257px -> 700 units => 0.5569 -->
+  <text x="56" y="184" font-family="Menlo, monospace" font-size="17" font-weight="bold" fill="#e6edf3">Java</text>
+  <rect x="180" y="166" width="507" height="26" rx="4" fill="#d29922" opacity="0.85"/>
+  <text x="699" y="185" font-family="Menlo, monospace" font-size="15" fill="#e6edf3">911</text>
+  <rect x="180" y="198" width="370" height="26" rx="4" fill="#58a6ff" opacity="0.85"/>
+  <text x="562" y="217" font-family="Menlo, monospace" font-size="15" fill="#e6edf3">664</text>
+  <text x="1144" y="201" font-family="Menlo, monospace" font-size="22" font-weight="bold" fill="#d29922" text-anchor="end">+37%</text>
+
+  <!-- Python 1092 / 869 -->
+  <text x="56" y="284" font-family="Menlo, monospace" font-size="17" font-weight="bold" fill="#e6edf3">Python</text>
+  <rect x="180" y="266" width="608" height="26" rx="4" fill="#d29922" opacity="0.85"/>
+  <text x="800" y="285" font-family="Menlo, monospace" font-size="15" fill="#e6edf3">1092</text>
+  <rect x="180" y="298" width="484" height="26" rx="4" fill="#58a6ff" opacity="0.85"/>
+  <text x="676" y="317" font-family="Menlo, monospace" font-size="15" fill="#e6edf3">869</text>
+  <text x="1144" y="301" font-family="Menlo, monospace" font-size="22" font-weight="bold" fill="#d29922" text-anchor="end">+26%</text>
+
+  <!-- Node 1257 / 649 -->
+  <text x="56" y="384" font-family="Menlo, monospace" font-size="17" font-weight="bold" fill="#e6edf3">Node</text>
+  <rect x="180" y="366" width="700" height="26" rx="4" fill="#d29922" opacity="0.85"/>
+  <text x="892" y="385" font-family="Menlo, monospace" font-size="15" fill="#e6edf3">1257</text>
+  <rect x="180" y="398" width="361" height="26" rx="4" fill="#58a6ff" opacity="0.85"/>
+  <text x="553" y="417" font-family="Menlo, monospace" font-size="15" fill="#e6edf3">649</text>
+  <text x="1144" y="401" font-family="Menlo, monospace" font-size="22" font-weight="bold" fill="#f85149" text-anchor="end">+94%</text>
+
+  <line x1="56" y1="452" x2="1144" y2="452" stroke="#30363d" stroke-width="1.5" stroke-dasharray="5 5"/>
+  <text x="56" y="486" font-family="Menlo, monospace" font-size="16" fill="#7d8590">Across all three: <tspan fill="#e6edf3" font-weight="bold">3260</tspan> lines of Jenkins against <tspan fill="#e6edf3" font-weight="bold">2182</tspan> of GitHub Actions, <tspan fill="#e6edf3" font-weight="bold">+49%</tspan></text>
+  <text x="56" y="514" font-family="Menlo, monospace" font-size="16" fill="#6e7681">Some of the gap is comments. The rest is Jenkins reaching for a plugin where Actions uses plain shell.</text>
+</svg>
