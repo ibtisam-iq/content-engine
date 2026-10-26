@@ -1,0 +1,42 @@
+packet_id: "2026-07-22-debugbox-cicd-pipeline"
+title: "DebugBox: Multi-Arch CI Pipeline with Hard-Fail Security Gates"
+date: "2026-07-22"
+topic: "debugbox-cicd-pipeline"
+lifecycle_status: "ready"
+
+taxonomy:
+  pillars:
+    - "platform-engineering"
+    - "ci-cd"
+  tags:
+    - "github-actions"
+    - "containers"
+    - "container-security"
+    - "devops"
+    - "debugbox"
+  campaign: "debugbox-v1-launch"
+  series: "debugbox-series"
+
+lineage:
+  canonical_source: "https://github.com/ibtisam-iq/debugbox"
+  repurposed_from: "2026-07-14-debugbox-k8s-announcement"
+  related_project: "debugbox-v1.1.0"
+  derivatives: []
+
+governance:
+  created_at: "2026-07-14T00:00:00Z"
+  updated_at: "2026-07-14T00:00:00Z"
+  author: "ibtisam"
+  owner: "ibtisam"
+  reviewers: []
+  related_project: "debugbox-v1.1.0"
+
+channels_manifest:
+  - channels/linkedin.md
+
+aggregate_metrics:
+  total_impressions: 0
+  total_engagements: 0
+  total_clicks: 0
+  total_conversions: 0
+  last_updated: ""
