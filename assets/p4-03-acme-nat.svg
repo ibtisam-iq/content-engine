@@ -1,0 +1,71 @@
+<svg width="1200" height="650" viewBox="0 0 1200 650" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d1220"/><stop offset="1" stop-color="#090c12"/>
+    </linearGradient>
+    <linearGradient id="card-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#161b22"/><stop offset="1" stop-color="#0d1117"/>
+    </linearGradient>
+    <marker id="a3" markerWidth="10" markerHeight="8" refX="7.5" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#8b949e"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1200" height="650" fill="url(#bg)"/>
+
+  <text x="56" y="58" font-family="Menlo, monospace" font-size="28" font-weight="bold" fill="#e6edf3">An ACME challenge that could not reach itself</text>
+  <text x="57" y="88" font-family="Menlo, monospace" font-size="15" fill="#7d8590">cert-manager will not ask Let's Encrypt until it can see its own answer. On a NAT'd node, it never could.</text>
+  <text x="1144" y="58" font-family="Menlo, monospace" font-size="20" font-weight="bold" fill="#58a6ff" text-anchor="end">ibtisam-iq</text>
+
+  <text x="56" y="134" font-family="Menlo, monospace" font-size="12" letter-spacing="1.5" fill="#f85149">THE SELF-CHECK PATH, BEFORE</text>
+
+  <rect x="56" y="150" width="212" height="76" rx="10" fill="url(#card-grad)" stroke="#30363d" stroke-width="1.5"/>
+  <text x="162" y="180" font-family="Menlo, monospace" font-size="14" font-weight="bold" fill="#e6edf3" text-anchor="middle">cert-manager</text>
+  <text x="162" y="202" font-family="Menlo, monospace" font-size="12" fill="#7d8590" text-anchor="middle">resolves the domain</text>
+  <line x1="276" y1="188" x2="330" y2="188" stroke="#8b949e" stroke-width="2" marker-end="url(#a3)"/>
+
+  <rect x="338" y="150" width="212" height="76" rx="10" fill="url(#card-grad)" stroke="#30363d" stroke-width="1.5"/>
+  <text x="444" y="180" font-family="Menlo, monospace" font-size="14" font-weight="bold" fill="#e6edf3" text-anchor="middle">cluster DNS</text>
+  <text x="444" y="202" font-family="Menlo, monospace" font-size="12" fill="#f85149" text-anchor="middle">answers: public IP</text>
+  <line x1="558" y1="188" x2="612" y2="188" stroke="#8b949e" stroke-width="2" marker-end="url(#a3)"/>
+
+  <rect x="620" y="150" width="212" height="76" rx="10" fill="url(#card-grad)" stroke="#30363d" stroke-width="1.5"/>
+  <text x="726" y="180" font-family="Menlo, monospace" font-size="14" font-weight="bold" fill="#e6edf3" text-anchor="middle">leaves the box</text>
+  <text x="726" y="202" font-family="Menlo, monospace" font-size="12" fill="#7d8590" text-anchor="middle">out through NAT</text>
+  <line x1="840" y1="188" x2="894" y2="188" stroke="#8b949e" stroke-width="2" marker-end="url(#a3)"/>
+
+  <rect x="902" y="150" width="242" height="76" rx="10" fill="#2a1416" stroke="#f85149" stroke-width="1.5"/>
+  <text x="1023" y="180" font-family="Menlo, monospace" font-size="14" font-weight="bold" fill="#f85149" text-anchor="middle">never comes back</text>
+  <text x="1023" y="202" font-family="Menlo, monospace" font-size="12" fill="#7d8590" text-anchor="middle">challenge stays pending</text>
+
+  <text x="56" y="286" font-family="Menlo, monospace" font-size="12" letter-spacing="1.5" fill="#8b949e">THREE THINGS WERE WRONG AT ONCE</text>
+
+  <rect x="56" y="302" width="352" height="176" rx="10" fill="url(#card-grad)" stroke="#30363d" stroke-width="1.5"/>
+  <text x="76" y="330" font-family="Menlo, monospace" font-size="13" letter-spacing="1.2" fill="#8b949e">1  WRONG SERVICE</text>
+  <text x="76" y="360" font-family="Menlo, monospace" font-size="13" fill="#c9d1d9">NGINX Gateway Fabric makes</text>
+  <text x="76" y="380" font-family="Menlo, monospace" font-size="13" fill="#c9d1d9">a separate nginx deployment</text>
+  <text x="76" y="400" font-family="Menlo, monospace" font-size="13" fill="#c9d1d9">per Gateway, in the app</text>
+  <text x="76" y="420" font-family="Menlo, monospace" font-size="13" fill="#c9d1d9">namespace. That one holds</text>
+  <text x="76" y="440" font-family="Menlo, monospace" font-size="13" fill="#c9d1d9">the NodePort.</text>
+
+  <rect x="424" y="302" width="352" height="176" rx="10" fill="#1c1a10" stroke="#d29922" stroke-width="1.5"/>
+  <text x="444" y="330" font-family="Menlo, monospace" font-size="13" letter-spacing="1.2" fill="#d29922">2  FIX: iptables REDIRECT</text>
+  <text x="444" y="360" font-family="Menlo, monospace" font-size="13" fill="#c9d1d9">Nothing was bound to port 80</text>
+  <text x="444" y="380" font-family="Menlo, monospace" font-size="13" fill="#c9d1d9">on the host.</text>
+  <text x="444" y="410" font-family="Menlo, monospace" font-size="13" fill="#d29922">Both directions, because</text>
+  <text x="444" y="430" font-family="Menlo, monospace" font-size="13" fill="#d29922">node-generated traffic skips</text>
+  <text x="444" y="450" font-family="Menlo, monospace" font-size="13" fill="#d29922">PREROUTING.</text>
+
+  <rect x="792" y="302" width="352" height="176" rx="10" fill="#1c1a10" stroke="#d29922" stroke-width="1.5"/>
+  <text x="812" y="330" font-family="Menlo, monospace" font-size="13" letter-spacing="1.2" fill="#d29922">3  FIX: CoreDNS override</text>
+  <text x="812" y="360" font-family="Menlo, monospace" font-size="13" fill="#c9d1d9">In-cluster DNS still pointed</text>
+  <text x="812" y="380" font-family="Menlo, monospace" font-size="13" fill="#c9d1d9">at the public address.</text>
+  <text x="812" y="410" font-family="Menlo, monospace" font-size="13" fill="#d29922">A hosts block pins it to the</text>
+  <text x="812" y="430" font-family="Menlo, monospace" font-size="13" fill="#d29922">node's private IP, so the</text>
+  <text x="812" y="450" font-family="Menlo, monospace" font-size="13" fill="#d29922">self-check stays inside.</text>
+
+  <rect x="56" y="508" width="1088" height="52" rx="10" fill="#0d2818" stroke="#3fb950" stroke-width="1.5"/>
+  <text x="600" y="540" font-family="Menlo, monospace" font-size="15" font-weight="bold" fill="#3fb950" text-anchor="middle">AFTER  ·  cert-manager resolves to the private IP, hits the local NodePort, sees its own token, and issues</text>
+
+  <rect x="56" y="578" width="1088" height="38" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <text x="74" y="602" font-family="Menlo, monospace" font-size="15" font-weight="bold" fill="#e6edf3">No public IP at all? HTTP-01 cannot work by design. DNS-01 never needs to reach you.</text>
+</svg>
