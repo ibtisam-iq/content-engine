@@ -1,0 +1,82 @@
+<svg width="1200" height="712" viewBox="0 0 1200 712" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d1220"/><stop offset="1" stop-color="#090c12"/>
+    </linearGradient>
+    <linearGradient id="card-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#161b22"/><stop offset="1" stop-color="#0d1117"/>
+    </linearGradient>
+    <marker id="am" markerWidth="10" markerHeight="8" refX="7.5" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#8b949e"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1200" height="712" fill="url(#bg)"/>
+
+  <text x="56" y="58" font-family="Menlo, monospace" font-size="28" font-weight="bold" fill="#e6edf3">One artifact, four compute models</text>
+  <text x="57" y="88" font-family="Menlo, monospace" font-size="15" fill="#7d8590">The same JAR every time. What changed was everything around it.</text>
+  <text x="1144" y="58" font-family="Menlo, monospace" font-size="20" font-weight="bold" fill="#58a6ff" text-anchor="end">ibtisam-iq</text>
+
+  <text x="56" y="128" font-family="Menlo, monospace" font-size="12" letter-spacing="1.5" fill="#8b949e">VALIDATED FIRST, BEFORE ANY DEPLOYMENT</text>
+  <rect x="56" y="142" width="1088" height="52" rx="10" fill="url(#card-grad)" stroke="#30363d" stroke-width="1.5"/>
+  <text x="212" y="166" font-family="Menlo, monospace" font-size="14" font-weight="bold" fill="#e6edf3" text-anchor="middle">on the host</text>
+  <text x="212" y="184" font-family="Menlo, monospace" font-size="12" fill="#7d8590" text-anchor="middle">native JVM, native MySQL, no containers</text>
+  <line x1="426" y1="168" x2="486" y2="168" stroke="#8b949e" stroke-width="2" marker-end="url(#am)"/>
+  <text x="640" y="166" font-family="Menlo, monospace" font-size="14" font-weight="bold" fill="#e6edf3" text-anchor="middle">Docker Compose</text>
+  <text x="640" y="184" font-family="Menlo, monospace" font-size="12" fill="#7d8590" text-anchor="middle">app and MySQL on one internal network</text>
+  <line x1="852" y1="168" x2="912" y2="168" stroke="#8b949e" stroke-width="2" marker-end="url(#am)"/>
+  <text x="1030" y="176" font-family="Menlo, monospace" font-size="14" font-weight="bold" fill="#3fb950" text-anchor="middle">then the four below</text>
+
+  <text x="56" y="238" font-family="Menlo, monospace" font-size="12" letter-spacing="1.5" fill="#8b949e">COMPUTE LAYER</text>
+  <rect x="56"  y="252" width="248" height="58" rx="10" fill="url(#card-grad)" stroke="#30363d" stroke-width="1.5"/>
+  <text x="180" y="278" font-family="Menlo, monospace" font-size="17" font-weight="bold" fill="#e6edf3" text-anchor="middle">EC2</text>
+  <text x="180" y="298" font-family="Menlo, monospace" font-size="12" fill="#7d8590" text-anchor="middle">Auto Scaling Group</text>
+  <rect x="336" y="252" width="248" height="58" rx="10" fill="url(#card-grad)" stroke="#30363d" stroke-width="1.5"/>
+  <text x="460" y="278" font-family="Menlo, monospace" font-size="17" font-weight="bold" fill="#e6edf3" text-anchor="middle">ECS</text>
+  <text x="460" y="298" font-family="Menlo, monospace" font-size="12" fill="#7d8590" text-anchor="middle">Fargate</text>
+  <rect x="616" y="252" width="248" height="58" rx="10" fill="url(#card-grad)" stroke="#30363d" stroke-width="1.5"/>
+  <text x="740" y="278" font-family="Menlo, monospace" font-size="17" font-weight="bold" fill="#e6edf3" text-anchor="middle">Kubernetes</text>
+  <text x="740" y="298" font-family="Menlo, monospace" font-size="12" fill="#7d8590" text-anchor="middle">bare metal, kubeadm</text>
+  <rect x="896" y="252" width="248" height="58" rx="10" fill="url(#card-grad)" stroke="#30363d" stroke-width="1.5"/>
+  <text x="1020" y="278" font-family="Menlo, monospace" font-size="17" font-weight="bold" fill="#e6edf3" text-anchor="middle">EKS</text>
+  <text x="1020" y="298" font-family="Menlo, monospace" font-size="12" fill="#7d8590" text-anchor="middle">managed control plane</text>
+
+  <text x="56" y="346" font-family="Menlo, monospace" font-size="12" letter-spacing="1.5" fill="#d29922">WHAT I HAD TO WRITE AND OPERATE MYSELF</text>
+
+  <rect x="56"  y="360" width="248" height="190" rx="10" fill="#1c1a10" stroke="#d29922" stroke-width="1.5"/>
+  <g font-family="Menlo, monospace" font-size="13" fill="#c9d1d9">
+    <text x="76" y="390">user data bootstrap</text><text x="76" y="416">JAR from S3 via IAM</text>
+    <text x="76" y="442">systemd unit</text><text x="76" y="468">ASG health replacement</text>
+  </g>
+
+  <rect x="336" y="360" width="248" height="190" rx="10" fill="#1c1a10" stroke="#d29922" stroke-width="1.5"/>
+  <text x="356" y="390" font-family="Menlo, monospace" font-size="13" fill="#c9d1d9">one task definition</text>
+  <text x="356" y="424" font-family="Menlo, monospace" font-size="13" fill="#3fb950">and nothing else</text>
+
+  <rect x="616" y="360" width="248" height="190" rx="10" fill="#1c1a10" stroke="#d29922" stroke-width="1.5"/>
+  <g font-family="Menlo, monospace" font-size="13" fill="#c9d1d9">
+    <text x="636" y="390">Kustomize base + overlay</text><text x="636" y="416">Gateway API + HTTPRoute</text>
+    <text x="636" y="442">cert-manager Certificate</text><text x="636" y="468">NodePort service patch</text>
+    <text x="636" y="494">local-path PVC</text><text x="636" y="520">the kubeadm cluster</text>
+  </g>
+
+  <rect x="896" y="360" width="248" height="190" rx="10" fill="#1c1a10" stroke="#d29922" stroke-width="1.5"/>
+  <g font-family="Menlo, monospace" font-size="13" fill="#c9d1d9">
+    <text x="916" y="390">Kustomize base + overlay</text><text x="916" y="416">Gateway API + HTTPRoute</text>
+    <text x="916" y="442">HorizontalPodAutoscaler</text><text x="916" y="468">gp3 StorageClass</text>
+    <text x="916" y="494">ACM cert on the listener</text><text x="916" y="520">Terraform for the cluster</text>
+  </g>
+
+  <text x="56" y="586" font-family="Menlo, monospace" font-size="12" letter-spacing="1.5" fill="#8b949e">WHAT THEY RAN ON, WHICH IS NOT THE SAME FOR ALL FOUR</text>
+
+  <rect x="56" y="600" width="528" height="76" rx="10" fill="url(#card-grad)" stroke="#3fb950" stroke-width="1.5"/>
+  <text x="320" y="628" font-family="Menlo, monospace" font-size="15" font-weight="bold" fill="#3fb950" text-anchor="middle">one VPC, one set of security groups,</text>
+  <text x="320" y="648" font-family="Menlo, monospace" font-size="15" font-weight="bold" fill="#3fb950" text-anchor="middle">one shared RDS instance</text>
+  <text x="320" y="668" font-family="Menlo, monospace" font-size="12" fill="#7d8590" text-anchor="middle">only the compute layer moved, so these two compare cleanly</text>
+
+  <rect x="616" y="600" width="528" height="76" rx="10" fill="url(#card-grad)" stroke="#484f58" stroke-width="1.5"/>
+  <text x="880" y="628" font-family="Menlo, monospace" font-size="15" font-weight="bold" fill="#c9d1d9" text-anchor="middle">two separate environments</text>
+  <text x="880" y="648" font-family="Menlo, monospace" font-size="15" font-weight="bold" fill="#c9d1d9" text-anchor="middle">bare metal: MySQL in-cluster, EKS: its own RDS</text>
+  <text x="880" y="668" font-family="Menlo, monospace" font-size="12" fill="#7d8590" text-anchor="middle">an ephemeral lab machine, then a separate sandbox account</text>
+
+  <text x="56" y="702" font-family="Menlo, monospace" font-size="15" font-weight="bold" fill="#e6edf3">The database followed the compute, so only the first two are a controlled comparison.</text>
+</svg>
