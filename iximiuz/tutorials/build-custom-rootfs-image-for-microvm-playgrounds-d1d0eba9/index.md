@@ -115,6 +115,15 @@ tasks:
       exit 0
 ---
 
+::remark-box
+---
+kind: warning
+---
+**Scope.** This tutorial builds a rootfs image for an **iximiuz Labs playground VM**, and the manifest and `labctl` steps in Part 7 are specific to this platform.
+
+Those playgrounds happen to be Firecracker microVMs, so everything up to Part 7, the five boot requirements, the Dockerfile, and the validation script, applies just as well if you are preparing a rootfs for your own Firecracker or Cloud Hypervisor microVMs. Where a step depends on the platform doing something for you, it is called out.
+::
+
 ## Prerequisites
 
 This tutorial assumes you are comfortable writing a Dockerfile and running `docker build`, and that you have seen a systemd unit before. You do not need to know systemd well: the one distinction that matters, between enabling a unit and starting it, is explained where it comes up.
@@ -126,7 +135,7 @@ Nothing else is required. No Kubernetes, no `labctl`, no registry account, and n
 By the end of this tutorial, you will know:
 
 - Which five requirements separate a bootable rootfs image from an ordinary container image, and which of them a plain `ubuntu:24.04` fails
-- Why SSH host keys and `machine-id` have to be **deleted** from the image rather than baked in
+- Why SSH host keys and `machine-id` must never be **baked into** the image, and who regenerates them
 - How to validate an image that you cannot boot, using assertions against a stopped image
 - Why `docker run` answers almost nothing about a rootfs image, and what it can still be trusted for
 - How to tell a broken image from a broken check, which turns out to be the harder skill
@@ -322,7 +331,9 @@ kind: warning
 ---
 Leave them in the image and **every VM anyone ever boots from it shares one identity**. Anyone who pulls your public image holds the private host keys of every machine running it.
 
-The platform regenerates host keys at first boot, so deleting them is both safe and required.
+On iximiuz Labs you are covered either way: the platform strips and regenerates host keys at first boot, so this line is defence in depth rather than a hard requirement. The official base images delete them too, for the same reason it is worth doing here, to keep the step visible.
+
+Keep it. The moment you boot this rootfs on your own Firecracker or Cloud Hypervisor VM, nothing is doing it for you.
 ::
 
 `/etc/machine-id` is the same problem in a smaller form: systemd uses it to identify the machine, and a shared one produces duplicate journald IDs and DHCP collisions.
