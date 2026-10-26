@@ -1,0 +1,69 @@
+<svg width="1200" height="490" viewBox="0 0 1200 490" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d1220"/>
+      <stop offset="1" stop-color="#090c12"/>
+    </linearGradient>
+    <linearGradient id="card-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#161b22"/>
+      <stop offset="1" stop-color="#0d1117"/>
+    </linearGradient>
+    <marker id="ah2" markerWidth="10" markerHeight="8" refX="7.5" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#8b949e"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="1200" height="490" fill="url(#bg)"/>
+
+  <!-- Header -->
+  <text x="56" y="58" font-family="Menlo, monospace" font-size="28" font-weight="bold" fill="#e6edf3">Green is not the same as correct</text>
+  <text x="57" y="88" font-family="Menlo, monospace" font-size="15" fill="#7d8590">Twelve numbered fixes in one Jenkinsfile. Not one of them was reported by anything.</text>
+
+  <!-- Brand Handle (Clean, no background circle/rectangle, aligned with title baseline) -->
+  <text x="1144" y="58" font-family="Menlo, monospace" font-size="20" font-weight="bold" fill="#58a6ff" text-anchor="end">ibtisam-iq</text>
+
+  <!-- BEFORE CARD -->
+  <rect x="56" y="126" width="280" height="124" rx="12" fill="url(#card-grad)" stroke="#3fb950" stroke-width="1.5"/>
+  <text x="76" y="156" font-family="Menlo, monospace" font-size="12" letter-spacing="1.5" fill="#8b949e">BEFORE THE FIX</text>
+  <circle cx="92" cy="192" r="13" fill="#0d2818" stroke="#3fb950" stroke-width="1.5"/>
+  <path d="M86 192 l4 4 l8 -8" fill="none" stroke="#3fb950" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="114" y="199" font-family="Menlo, monospace" font-size="20" font-weight="bold" fill="#3fb950">build passing</text>
+
+  <!-- CONNECTOR ARROW & BADGE -->
+  <line x1="344" y1="188" x2="456" y2="188" stroke="#484f58" stroke-width="2" marker-end="url(#ah2)"/>
+  <rect x="354" y="146" width="92" height="24" rx="12" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+  <text x="400" y="162" font-family="Menlo, monospace" font-size="11" font-weight="bold" fill="#8b949e" text-anchor="middle">FIX #1 to #13</text>
+
+  <!-- AFTER CARD -->
+  <rect x="464" y="126" width="280" height="124" rx="12" fill="url(#card-grad)" stroke="#3fb950" stroke-width="1.5"/>
+  <text x="484" y="156" font-family="Menlo, monospace" font-size="12" letter-spacing="1.5" fill="#8b949e">AFTER THE FIX</text>
+  <circle cx="500" cy="192" r="13" fill="#0d2818" stroke="#3fb950" stroke-width="1.5"/>
+  <path d="M494 192 l4 4 l8 -8" fill="none" stroke="#3fb950" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="522" y="199" font-family="Menlo, monospace" font-size="20" font-weight="bold" fill="#3fb950">build passing</text>
+
+  <!-- STAT CARD -->
+  <rect x="784" y="126" width="360" height="124" rx="12" fill="url(#card-grad)" stroke="#30363d" stroke-width="1.5"/>
+  <text x="964" y="174" font-family="Menlo, monospace" font-size="44" font-weight="bold" fill="#d29922" text-anchor="middle">12</text>
+  <text x="964" y="202" font-family="Menlo, monospace" font-size="14" fill="#7d8590" text-anchor="middle">real defects between those</text>
+  <text x="964" y="224" font-family="Menlo, monospace" font-size="14" fill="#7d8590" text-anchor="middle">two identical green ticks</text>
+
+  <!-- DIVIDER -->
+  <line x1="56" y1="278" x2="1144" y2="278" stroke="#30363d" stroke-width="1.5" stroke-dasharray="5 5"/>
+
+  <!-- TAKEAWAYS -->
+  <text x="56" y="312" font-family="Menlo, monospace" font-size="12" letter-spacing="1.5" fill="#8b949e">WHAT A PASSING BUILD DOES NOT TELL YOU</text>
+
+  <circle cx="64" cy="342" r="3" fill="#f85149"/>
+  <text x="78" y="346" font-family="Menlo, monospace" font-size="15" fill="#7d8590">That the step ran at all, rather than being skipped by a condition that is never true</text>
+
+  <circle cx="64" cy="372" r="3" fill="#f85149"/>
+  <text x="78" y="376" font-family="Menlo, monospace" font-size="15" fill="#7d8590">That the thing it checked was the thing you built</text>
+
+  <circle cx="64" cy="402" r="3" fill="#f85149"/>
+  <text x="78" y="406" font-family="Menlo, monospace" font-size="15" fill="#7d8590">That a failure inside it would have been allowed to fail the run</text>
+
+  <!-- BOTTOM BANNER -->
+  <rect x="56" y="432" width="1088" height="38" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <text x="74" y="456" font-family="Menlo, monospace" font-size="15" font-weight="bold" fill="#e6edf3">A CI run reports whether it finished. It does not report whether it was right.</text>
+</svg>
